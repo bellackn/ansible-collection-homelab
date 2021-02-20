@@ -1,0 +1,65 @@
+---
+- name: "Create LXC {{ item.hostname }}"
+  community.general.proxmox:
+    proxmox_default_behavior: no_defaults
+    api_user: "{{ px_lxc_api_user }}"
+    api_password: "{{ px_lxc_api_password }}"
+    api_host: "{{ px_lxc_proxmox_host }}"
+    node: "{{ px_lxc_proxmox_node }}"
+    hostname: "{{ item.hostname }}"
+    password: "{{ item.password }}"
+    state: present
+    force: "{{ item.force | default('no') }}"
+    pubkey: "{{ item.pubkey }}"
+    validate_certs: no
+    ostemplate: "{{ item.ostemplate }}"
+    netif: "{{ item.netif }}"
+    cpus: "{{ item.cpus | default(px_lxc_cpus) }}"
+    cores: "{{ item.cores | default(px_lxc_cores) }}"
+    cpuunits: "{{ item.cpuunits | default(px_lxc_cpuunits) }}"
+    storage: "{{ item.storage | default(px_lxc_storage) }}"
+    disk: "{{ item.disk | default(px_lxc_disk) }}"
+    memory: "{{ item.memory | default(px_lxc_memory) }}"
+    onboot: "{{ item.onboot | default('yes') }}"
+    swap: "{{ item.swap | default(px_lxc_swap) }}"
+    vmid: "{{ item.vmid | default(omit) }}"
+    unprivileged: "{{ item.unprivileged | default('yes') }}"
+  delegate_to: localhost
+  register: px_lxc_created
+
+- name: "Wait for {{ item.hostname }} creation"
+  delegate_to: localhost
+  wait_for:
+    timeout: "{{ px_lxc_creation_timeout }}"
+  when: px_lxc_created.changed
+
+- name: "Start {{ item.hostname }}"
+  community.general.proxmox:
+    proxmox_default_behavior: no_defaults
+    api_user: "{{ px_lxc_api_user }}"
+    api_password: "{{ px_lxc_api_password }}"
+    api_host: "{{ px_lxc_proxmox_host }}"
+    node: "{{ px_lxc_proxmox_node }}"
+    hostname: "{{ item.hostname }}"
+    state: started
+  delegate_to: localhost
+  register: px_lxc_started
+
+- name: "Wait for {{ item.hostname }} to be started"
+  wait_for:
+    timeout: 5
+  delegate_to: localhost
+  when: px_lxc_started.changed
+
+- name: Ping outside
+  command: "lxc-attach -n {{ px_lxc_started.msg[3:6] }} -- ping {{ px_lxc_ping_server }} -c 2"
+  delegate_to: "{{ px_lxc_proxmox_node }}"
+  when: px_lxc_created.changed
+
+- name: "Wait for {{ item.hostname }} network"
+  wait_for:
+    host: "{{ inventory_hostname }}"
+    port: 22
+    search_regex: OpenSSH
+    timeout: "{{ px_lxc_network_timeout }}"
+  delegate_to: localhost
