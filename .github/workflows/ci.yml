@@ -8,7 +8,7 @@ defaults:
   run:
     working-directory: "bellackn.px_lxc"
 
-on:
+"on":
   pull_request:
   push:
     branches:
