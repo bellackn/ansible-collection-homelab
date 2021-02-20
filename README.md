@@ -16,7 +16,7 @@ Role Variables
 
     px_lxc_containers_present: []
 
-Takes a list of LXCs that you want to **create**. See the [Proxmox community module](px_community_module) for all possible 
+Takes a list of LXCs that you want to **create**. See the [Proxmox community module][1] for all possible 
 variables and check the example playbook.
 
     px_lxc_containers_absent: []
@@ -45,7 +45,7 @@ The name of the Proxmox node. If you just have one Proxmox host, this should be 
     px_lxc_storage: local-lvm
     px_lxc_swap: 0
 
-Various global default values for certain hardware settings. Check the [Proxmox community module](px_community_module).
+Various global default values for certain hardware settings. Check the [Proxmox community module][1].
 
     px_lxc_creation_timeout: 10
 
@@ -108,4 +108,4 @@ Acknowledgements
 
 This role was heavily inspired by the [ovv.lxc](https://github.com/ovv/ansible-role-proxmox-lxc) role. Thank you!
 
-[px_community_module]: https://docs.ansible.com/ansible/latest/collections/community/general/proxmox_module.html
+[1]: https://docs.ansible.com/ansible/latest/collections/community/general/proxmox_module.html
