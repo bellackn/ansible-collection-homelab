@@ -1,3 +1,5 @@
+![build_status_badge](https://github.com/bellackn/ansible-role-px-lxc/actions/workflows/ci.yml/badge.svg)
+
 bellackn.px_lxc
 ===============
 
