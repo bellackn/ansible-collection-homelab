@@ -4,6 +4,11 @@ bellackn.px_lxc
 This role is a convenient wrapper for the Ansible Proxmox community module and can be used to create or delete LXCs on a
 Proxmox instance.
 
+Requirements
+------------
+
+* You need to have the Ansible collection `community.general` installed.
+
 Role Variables
 --------------
 

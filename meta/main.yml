@@ -21,8 +21,3 @@ galaxy_info:
     - lxc
 
 dependencies: []
-
-collections:
-
-  - name: community.general
-    version: 2.0.1
