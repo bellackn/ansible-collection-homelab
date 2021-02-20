@@ -44,7 +44,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-${{ matrix.ANSIBLE_VERSION }}-
       - name: Create ansible.cfg
-        run: |
+        run: >
           printf '[defaults]\nroles_path=./tests/requirements/:../\ncollections_paths=./tests/requirements/:../'
           > ansible.cfg
 
