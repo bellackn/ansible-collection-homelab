@@ -27,7 +27,7 @@
   delegate_to: localhost
   register: px_lxc_created
 
-- name: "Wait for {{ item.hostname }} creation"
+- name: "Wait for {{ item.hostname }} creation"  #noqa 503
   delegate_to: localhost
   wait_for:
     timeout: "{{ px_lxc_creation_timeout }}"
@@ -45,13 +45,13 @@
   delegate_to: localhost
   register: px_lxc_started
 
-- name: "Wait for {{ item.hostname }} to be started"
+- name: "Wait for {{ item.hostname }} to be started"  #noqa 503
   wait_for:
     timeout: 5
   delegate_to: localhost
   when: px_lxc_started.changed
 
-- name: Ping outside
+- name: Ping outside  #noqa 503
   command: "lxc-attach -n {{ px_lxc_started.msg[3:6] }} -- ping {{ px_lxc_ping_server }} -c 2"
   delegate_to: "{{ px_lxc_proxmox_node }}"
   when: px_lxc_created.changed
