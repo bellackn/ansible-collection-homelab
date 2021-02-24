@@ -1,4 +1,7 @@
 ---
+px_lxc_containers_present: []
+px_lxc_containers_absent: []
+
 px_lxc_cores: 1
 px_lxc_cpus: 1
 px_lxc_cpuunits: 1000
