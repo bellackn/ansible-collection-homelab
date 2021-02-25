@@ -45,6 +45,7 @@ The name of the Proxmox node. If you just have one Proxmox host, this should be 
     px_lxc_onboot: yes
     px_lxc_storage: local-lvm
     px_lxc_swap: 0
+    px_lxc_features: []
 
 Various global default values for certain hardware settings. Check the [Proxmox community module][1].
 

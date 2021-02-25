@@ -10,6 +10,7 @@ px_lxc_memory: 512
 px_lxc_onboot: yes
 px_lxc_storage: local-lvm
 px_lxc_swap: 0
+px_lxc_features: []
 
 px_lxc_creation_timeout: 10
 px_lxc_network_timeout: 60

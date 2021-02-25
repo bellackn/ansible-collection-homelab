@@ -24,6 +24,7 @@
     swap: "{{ item.swap | default(px_lxc_swap) }}"
     vmid: "{{ item.vmid | default(omit) }}"
     unprivileged: "{{ item.unprivileged | default('yes') }}"
+    features: "{{ item.features | default(px_lxc_features) }}"
   delegate_to: localhost
   register: px_lxc_created
 
