@@ -40,6 +40,7 @@ The name of the Proxmox node. If you just have one Proxmox host, this should be 
     px_lxc_cores: 1
     px_lxc_cpus: 1
     px_lxc_cpuunits: 1000
+    px_lxc_disk: 3
     px_lxc_memory: 512
     px_lxc_onboot: yes
     px_lxc_storage: local-lvm
