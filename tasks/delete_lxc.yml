@@ -2,10 +2,10 @@
 - name: "Stop LXC {{ item.hostname }}"
   community.general.proxmox:
     proxmox_default_behavior: no_defaults
-    api_user: "{{ px_lxc_api_user }}"
-    api_password: "{{ px_lxc_api_password }}"
-    api_host: "{{ px_lxc_proxmox_host }}"
-    node: "{{ px_lxc_proxmox_node }}"
+    api_user: "{{ proxmox_lxc_api_user }}"
+    api_password: "{{ proxmox_lxc_api_password }}"
+    api_host: "{{ proxmox_lxc_proxmox_host }}"
+    node: "{{ proxmox_lxc_proxmox_node }}"
     hostname: "{{ item.hostname }}"
     vmid: "{{ item.vmid | default(omit) }}"
     state: stopped
@@ -16,10 +16,10 @@
 - name: "Delete LXC {{ item.hostname }}"
   community.general.proxmox:
     proxmox_default_behavior: no_defaults
-    api_user: "{{ px_lxc_api_user }}"
-    api_password: "{{ px_lxc_api_password }}"
-    api_host: "{{ px_lxc_proxmox_host }}"
-    node: "{{ px_lxc_proxmox_node }}"
+    api_user: "{{ proxmox_lxc_api_user }}"
+    api_password: "{{ proxmox_lxc_api_password }}"
+    api_host: "{{ proxmox_lxc_proxmox_host }}"
+    node: "{{ proxmox_lxc_proxmox_node }}"
     hostname: "{{ item.hostname }}"
     vmid: "{{ item.vmid | default(omit) }}"
     state: absent

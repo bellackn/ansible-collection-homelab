@@ -1,18 +1,18 @@
 ---
-px_lxc_containers_present: []
-px_lxc_containers_absent: []
+proxmox_lxc_containers_present: []
+proxmox_lxc_containers_absent: []
 
-px_lxc_cores: 1
-px_lxc_cpus: 1
-px_lxc_cpuunits: 1000
-px_lxc_disk: 3
-px_lxc_memory: 512
-px_lxc_onboot: yes
-px_lxc_storage: local-lvm
-px_lxc_swap: 0
-px_lxc_features: []
+proxmox_lxc_cores: 1
+proxmox_lxc_cpus: 1
+proxmox_lxc_cpuunits: 1000
+proxmox_lxc_disk: 3
+proxmox_lxc_memory: 512
+proxmox_lxc_onboot: yes
+proxmox_lxc_storage: local-lvm
+proxmox_lxc_swap: 0
+proxmox_lxc_features: []
 
-px_lxc_creation_timeout: 10
-px_lxc_network_timeout: 60
-px_lxc_ping_server: 8.8.8.8
-px_lxc_starting_timeout: 5
+proxmox_lxc_creation_timeout: 10
+proxmox_lxc_network_timeout: 60
+proxmox_lxc_ping_server: 8.8.8.8
+proxmox_lxc_starting_timeout: 5
