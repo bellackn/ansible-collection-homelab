@@ -7,8 +7,8 @@
 
 - name: Create LXC containers
   include_tasks: create_lxc.yml
-  loop: "{{ px_lxc_containers_present }}"
+  loop: "{{ proxmox_lxc_containers_present }}"
 
 - name: Delete LXC containers
   include_tasks: delete_lxc.yml
-  loop: "{{ px_lxc_containers_absent }}"
+  loop: "{{ proxmox_lxc_containers_absent }}"

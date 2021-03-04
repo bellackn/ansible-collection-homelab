@@ -2,11 +2,11 @@
 name: CI
 
 env:
-  ROLE_NAME: bellackn.px_lxc
+  ROLE_NAME: bellackn.proxmox_lxc
 
 defaults:
   run:
-    working-directory: "bellackn.px_lxc"
+    working-directory: "bellackn.proxmox_lxc"
 
 "on":
   pull_request:
