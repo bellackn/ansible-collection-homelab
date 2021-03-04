@@ -3,7 +3,7 @@
 bellackn.proxmox_lxc
 ===============
 
-> This role used to be called bellackn.px_lxc and was renamed as part of #1.
+> This role used to be called bellackn.px_lxc and was renamed as part of [issue #1](https://github.com/bellackn/ansible-role-proxmox-lxc/issues/1).
 
 This role is a convenient wrapper for the Ansible Proxmox community module and can be used to create or delete LXCs on a
 Proxmox instance.
