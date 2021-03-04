@@ -10,7 +10,7 @@
     password: "{{ item.password }}"
     state: present
     force: "{{ item.force | default('no') }}"
-    pubkey: "{{ item.pubkey }}"
+    pubkey: "{{ item.pubkey | default('') }}"
     validate_certs: no
     ostemplate: "{{ item.ostemplate }}"
     netif: "{{ item.netif }}"
