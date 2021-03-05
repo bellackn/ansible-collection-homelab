@@ -145,7 +145,7 @@ This playbook will create two Ubuntu LXCs and delete them afterwards.
             password: baaar
     
         proxmox_lxc_containers_absent:
-          - hostname: test
+          - hostname: test1
           - hostname: test2
     
       roles:
