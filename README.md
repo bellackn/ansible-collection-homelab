@@ -8,6 +8,16 @@ bellackn.proxmox_lxc
 This role is a convenient wrapper for the Ansible Proxmox community module and can be used to create or delete LXCs on a
 Proxmox instance.
 
+How to Use
+----------
+
+Basically, the role bases upon the `proxmox_lxc_containers_present` and `proxmox_lxc_containers_absent` variables to
+spawn or delete LXCs. You can put a list of LXCs into these variables; the list items use the same keys like the 
+[Proxmox community module][1]. There are a lot of sane default values for most of the possible settings, but you can
+override each of them, either on a global level by overriding the default `proxmox_lxc_*` variable, or for a specific
+container by passing the variable into `proxmox_lxc_containers_present` - just check the example playbook (the `cpus` 
+part) and you'll get the idea.
+
 Requirements
 ------------
 
@@ -20,14 +30,11 @@ You need to have the following installed on your controlhost:
 Role Variables
 --------------
 
-    proxmox_lxc_containers_present: []
+### Mandatory
 
-Takes a list of LXCs that you want to **create**. See the [Proxmox community module][1] for all possible 
-variables and check the example playbook.
+    proxmox_lxc_api_host:
 
-    proxmox_lxc_containers_absent: []
-
-Takes a list of LXCs that you want to **delete**. Passing the hostname is enough - check the example playbook.
+The hostname of your Proxmox instance.
 
     proxmox_lxc_api_user:
     proxmox_lxc_api_password:
@@ -35,25 +42,56 @@ Takes a list of LXCs that you want to **delete**. Passing the hostname is enough
 The credentials for the API user on the Proxmox instance. If you use PAM to authenticate, make sure to append `@pam` to
 the username. You should define these variables in your local repository and encrypt it using Ansible Vault.
 
-    proxmox_lxc_proxmox_host: proxmox
+    proxmox_lxc_hostname:
 
-The hostname of your Proxmox instance.
+Hostname of the LXC that will be created/deleted.
 
-    proxmox_lxc_proxmox_node: proxmox
+    proxmox_lxc_ostemplate:
 
-The name of the Proxmox node. If you just have one Proxmox host, this should be the same like `proxmox_lxc_proxmox_host`.
+Container template to be used.
+
+    proxmox_lxc_password: ""  # Minimum length is 5
+
+Initial root password for the container.
+
+### Optional
+
+    proxmox_lxc_containers_present: []
+    proxmox_lxc_containers_absent: []
+
+Takes a list of LXCs that you either want to **create** or to **delete**. See the [Proxmox community module][1] for all 
+possible variables and check the example playbook. For the absent container list, passing the hostname is enough.
+
+(Although these are optional, not defining any of them makes the role pretty much pointless.)
+
+    proxmox_lxc_node: "{{ proxmox_lxc_api_host }}"
+
+The name of the Proxmox node. Defaults to `proxmox_lxc_proxmox_host`. You might want to change this if you have multiple
+nodes in your cluster.
 
     proxmox_lxc_cores: 1
     proxmox_lxc_cpus: 1
     proxmox_lxc_cpuunits: 1000
+    proxmox_lxc_description: Created with Ansible
     proxmox_lxc_disk: 3
-    proxmox_lxc_memory: 512
-    proxmox_lxc_onboot: yes
-    proxmox_lxc_storage: local-lvm
-    proxmox_lxc_swap: 0
     proxmox_lxc_features: []
+    proxmox_lxc_force: no
+    proxmox_lxc_hookscript: ""
+    proxmox_lxc_memory: 512
+    proxmox_lxc_mounts: {}
+    proxmox_lxc_nameserver: ""
+    proxmox_lxc_netif: {}
+    proxmox_lxc_onboot: no
+    proxmox_lxc_pool: ""
+    proxmox_lxc_pubkey: ""
+    proxmox_lxc_searchdomain: ""
+    proxmox_lxc_storage: local
+    proxmox_lxc_swap: 0
+    proxmox_lxc_timeout: 30
+    proxmox_lxc_unprivileged: no
+    proxmox_lxc_validate_certs: no
 
-Various global default values for certain hardware settings. Check the [Proxmox community module][1].
+Various global default settings. Check the [Proxmox community module][1] for details.
 
     proxmox_lxc_creation_timeout: 10
 
@@ -71,10 +109,16 @@ IP address of the server to ping in order to check network functionality.
 
 Seconds to wait for the LXC to be started.
 
+    proxmox_lxc_containers_present:
+      vmid:
+
+You can specify the VMID for the container that you want to create. If you don't set this, the next available ID will
+automatically picked. If the specified ID is already taken, the play will fail.
+
 Example Playbook
 ----------------
 
-This playbook will create an Ubuntu LXC and delete if afterwards.
+This playbook will create two Ubuntu LXCs and delete them afterwards.
 
     ---
     - name: Set up LXCs
@@ -82,24 +126,36 @@ This playbook will create an Ubuntu LXC and delete if afterwards.
       gather_facts: no
       vars:
 
+        proxmox_lxc_api_host: proxmox
         proxmox_lxc_api_user: root@pam
         proxmox_lxc_api_password: s3cr3t!
-        proxmox_lxc_proxmox_host: proxmox
-        proxmox_lxc_proxmox_node: proxmox
+        proxmox_lxc_storage: local-lvm
+        proxmox_lxc_cpus: 2  # Specify the value for all LXCs created with this role
 
         proxmox_lxc_containers_present:
-          - hostname: test
-            password: password
-            ostemplate: local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz
+          - hostname: test1
             netif: |
               {"net0":"name=eth0,gw=192.168.0.1,ip=192.168.0.201/32,ip6=dhcp,bridge=vmbr0"}
-            description: Created with Ansible
+            ostemplate: local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz
+            password: foooo
+            pubkey: "{{ lookup('file', '/path/to/your/public-key') }}"
+          - hostname: test2
+            cpus: 2  # Use a value specifically for this LXC
+            ostemplate: local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz
+            password: baaar
     
         proxmox_lxc_containers_absent:
           - hostname: test
+          - hostname: test2
     
       roles:
         - bellackn.proxmox_lxc
+
+Known Limitations
+-----------------
+
+* It's currently not possible to authenticate with Proxmox using API tokens, you have to use user/password.
+* Deleting containers must happen by specifying its hostname, deleting by VMID is not yet possible.
 
 License
 -------

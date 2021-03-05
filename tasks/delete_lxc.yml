@@ -1,27 +1,25 @@
 ---
-- name: "Stop LXC {{ item.hostname }}"
+- name: "Stop LXC '{{ item.hostname }}'"
   community.general.proxmox:
-    proxmox_default_behavior: no_defaults
-    api_user: "{{ proxmox_lxc_api_user }}"
-    api_password: "{{ proxmox_lxc_api_password }}"
-    api_host: "{{ proxmox_lxc_proxmox_host }}"
-    node: "{{ proxmox_lxc_proxmox_node }}"
+    api_host: "{{ item.api_host | default(proxmox_lxc_api_host) }}"
+    api_password: "{{ item.api_password | default(proxmox_lxc_api_password) }}"
+    api_user: "{{ item.api_user | default(proxmox_lxc_api_user) }}"
     hostname: "{{ item.hostname }}"
-    vmid: "{{ item.vmid | default(omit) }}"
+    node: "{{ item.node | default(proxmox_lxc_node) }}"
+    proxmox_default_behavior: no_defaults
     state: stopped
   delegate_to: localhost
   register: lxc_stop
   ignore_errors: yes
 
-- name: "Delete LXC {{ item.hostname }}"
+- name: "Delete LXC '{{ item.hostname }}'"
   community.general.proxmox:
-    proxmox_default_behavior: no_defaults
-    api_user: "{{ proxmox_lxc_api_user }}"
-    api_password: "{{ proxmox_lxc_api_password }}"
-    api_host: "{{ proxmox_lxc_proxmox_host }}"
-    node: "{{ proxmox_lxc_proxmox_node }}"
+    api_host: "{{ item.api_host | default(proxmox_lxc_api_host) }}"
+    api_password: "{{ item.api_password | default(proxmox_lxc_api_password) }}"
+    api_user: "{{ item.api_user | default(proxmox_lxc_api_user) }}"
     hostname: "{{ item.hostname }}"
-    vmid: "{{ item.vmid | default(omit) }}"
+    node: "{{ item.node | default(proxmox_lxc_node) }}"
+    proxmox_default_behavior: no_defaults
     state: absent
   delegate_to: localhost
   when: "'Hostname doesn\\'t exist' not in lxc_stop.msg"

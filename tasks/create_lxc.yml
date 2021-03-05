@@ -1,52 +1,59 @@
 ---
-- name: "Create LXC {{ item.hostname }}"
+- name: "Create LXC '{{ item.hostname }}'"
   community.general.proxmox:
-    proxmox_default_behavior: no_defaults
-    api_user: "{{ proxmox_lxc_api_user }}"
-    api_password: "{{ proxmox_lxc_api_password }}"
-    api_host: "{{ proxmox_lxc_proxmox_host }}"
-    node: "{{ proxmox_lxc_proxmox_node }}"
+    api_host: "{{ item.api_host | default(proxmox_lxc_api_host) }}"
+    api_password: "{{ item.api_password | default(proxmox_lxc_api_password) }}"
+    api_user: "{{ item.api_user | default(proxmox_lxc_api_user) }}"
     hostname: "{{ item.hostname }}"
-    password: "{{ item.password }}"
-    state: present
-    force: "{{ item.force | default('no') }}"
-    pubkey: "{{ item.pubkey | default('') }}"
-    validate_certs: no
-    ostemplate: "{{ item.ostemplate }}"
-    netif: "{{ item.netif }}"
-    cpus: "{{ item.cpus | default(proxmox_lxc_cpus) }}"
     cores: "{{ item.cores | default(proxmox_lxc_cores) }}"
+    cpus: "{{ item.cpus | default(proxmox_lxc_cpus) }}"
     cpuunits: "{{ item.cpuunits | default(proxmox_lxc_cpuunits) }}"
-    storage: "{{ item.storage | default(proxmox_lxc_storage) }}"
+    description: "{{ item.description | default(proxmox_lxc_description) }}"
     disk: "{{ item.disk | default(proxmox_lxc_disk) }}"
-    memory: "{{ item.memory | default(proxmox_lxc_memory) }}"
-    onboot: "{{ item.onboot | default('yes') }}"
-    swap: "{{ item.swap | default(proxmox_lxc_swap) }}"
-    vmid: "{{ item.vmid | default(omit) }}"
-    unprivileged: "{{ item.unprivileged | default('yes') }}"
     features: "{{ item.features | default(proxmox_lxc_features) }}"
+    force: "{{ item.force | default(proxmox_lxc_force) }}"
+    hookscript: "{{ item.hookscript | default(proxmox_lxc_hookscript | ternary(proxmox_lxc_hookscript, omit)) }}"
+    memory: "{{ item.memory | default(proxmox_lxc_memory) }}"
+    mounts: "{{ item.mounts | default(proxmox_lxc_mounts) }}"
+    nameserver: "{{ item.nameserver | default(proxmox_lxc_nameserver) }}"
+    node: "{{ item.node | default(proxmox_lxc_node) }}"
+    onboot: "{{ item.onboot | default(proxmox_lxc_onboot) }}"
+    ostemplate: "{{ item.ostemplate | default(proxmox_lxc_ostemplate) }}"
+    password: "{{ item.password | default(proxmox_lxc_password) }}"
+    netif: "{{ item.netif | default(proxmox_lxc_netif) }}"
+    pool: "{{ item.pool | default(proxmox_lxc_pool | ternary(proxmox_lxc_pool, omit)) }}"
+    proxmox_default_behavior: no_defaults
+    pubkey: "{{ item.pubkey | default(proxmox_lxc_pubkey) }}"
+    searchdomain: "{{ item.searchdomain | default(proxmox_lxc_searchdomain) }}"
+    state: present
+    storage: "{{ item.storage | default(proxmox_lxc_storage) }}"
+    swap: "{{ item.swap | default(proxmox_lxc_swap) }}"
+    timeout: "{{ item.timeout | default(proxmox_lxc_timeout) }}"
+    validate_certs: "{{ item.validate_certs | default(proxmox_lxc_validate_certs) }}"
+    vmid: "{{ item.vmid | default(omit) }}"
+    unprivileged: "{{ item.unprivileged | default(proxmox_lxc_unprivileged) }}"
   delegate_to: localhost
   register: proxmox_lxc_created
 
-- name: "Wait for {{ item.hostname }} creation"  # noqa 503
+- name: "Wait for creation of '{{ item.hostname }}'"  # noqa 503
   delegate_to: localhost
   wait_for:
     timeout: "{{ proxmox_lxc_creation_timeout }}"
   when: proxmox_lxc_created.changed
 
-- name: "Start {{ item.hostname }}"
+- name: "Start LXC '{{ item.hostname }}'"
   community.general.proxmox:
-    proxmox_default_behavior: no_defaults
-    api_user: "{{ proxmox_lxc_api_user }}"
-    api_password: "{{ proxmox_lxc_api_password }}"
-    api_host: "{{ proxmox_lxc_proxmox_host }}"
-    node: "{{ proxmox_lxc_proxmox_node }}"
+    api_host: "{{ item.api_host | default(proxmox_lxc_api_host) }}"
+    api_password: "{{ item.api_password | default(proxmox_lxc_api_password) }}"
+    api_user: "{{ item.api_user | default(proxmox_lxc_api_user) }}"
     hostname: "{{ item.hostname }}"
+    node: "{{ item.node | default(proxmox_lxc_node) }}"
+    proxmox_default_behavior: no_defaults
     state: started
   delegate_to: localhost
   register: proxmox_lxc_started
 
-- name: "Wait for {{ item.hostname }} to be started"  # noqa 503
+- name: "Wait for LXC '{{ item.hostname }}' to be started"  # noqa 503
   wait_for:
     timeout: 5
   delegate_to: localhost
@@ -54,10 +61,12 @@
 
 - name: Ping outside  # noqa 503
   command: "lxc-attach -n {{ proxmox_lxc_started.msg[3:6] }} -- ping {{ proxmox_lxc_ping_server }} -c 2"
-  delegate_to: "{{ proxmox_lxc_proxmox_node }}"
-  when: proxmox_lxc_created.changed
+  delegate_to: "{{ proxmox_lxc_node }}"
+  when:
+    - proxmox_lxc_created.changed
+    - item.netif is defined or proxmox_lxc_netif | length > 0
 
-- name: "Wait for {{ item.hostname }} network"
+- name: "Wait until sshd of LXC '{{ item.hostname }}' is ready"
   wait_for:
     host: "{{ inventory_hostname }}"
     port: 22

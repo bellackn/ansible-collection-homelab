@@ -1,16 +1,31 @@
 ---
 proxmox_lxc_containers_present: []
 proxmox_lxc_containers_absent: []
+proxmox_lxc_ostemplate:
 
 proxmox_lxc_cores: 1
 proxmox_lxc_cpus: 1
 proxmox_lxc_cpuunits: 1000
+proxmox_lxc_description: Created with Ansible
 proxmox_lxc_disk: 3
-proxmox_lxc_memory: 512
-proxmox_lxc_onboot: yes
-proxmox_lxc_storage: local-lvm
-proxmox_lxc_swap: 0
 proxmox_lxc_features: []
+proxmox_lxc_force: no
+proxmox_lxc_hookscript: ""
+proxmox_lxc_memory: 512
+proxmox_lxc_mounts: {}
+proxmox_lxc_nameserver: ""
+proxmox_lxc_netif: {}
+proxmox_lxc_node: "{{ proxmox_lxc_api_host }}"
+proxmox_lxc_onboot: no
+proxmox_lxc_password: ""  # Minimum length is 5
+proxmox_lxc_pool: ""
+proxmox_lxc_pubkey: ""
+proxmox_lxc_searchdomain: ""
+proxmox_lxc_storage: local
+proxmox_lxc_swap: 0
+proxmox_lxc_timeout: 30
+proxmox_lxc_unprivileged: no
+proxmox_lxc_validate_certs: no
 
 proxmox_lxc_creation_timeout: 10
 proxmox_lxc_network_timeout: 60
