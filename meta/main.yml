@@ -20,4 +20,7 @@ galaxy_info:
     - proxmox
     - lxc
 
-dependencies: []
+dependencies:
+  - role: geerlingguy.pip
+    pip_install_packages:
+      - name: proxmoxer

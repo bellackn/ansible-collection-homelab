@@ -11,7 +11,11 @@ Proxmox instance.
 Requirements
 ------------
 
-You need to have the Ansible collection `community.general` installed. Also, the Python package `proxmoxer` is needed.
+You need to have the following installed on your controlhost:
+* Ansible Role `geerlingguy.pip`
+  * Dependency to ensure that `pip` is present to install the required `proxmoxer` package
+* Ansible Collection `community.general`
+  * Contains the `community.general.proxmox` module, the centerpiece of this role
 
 Role Variables
 --------------

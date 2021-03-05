@@ -1,10 +1,4 @@
 ---
-- name: Install proxmoxer
-  pip:
-    name: proxmoxer
-    state: present
-  delegate_to: localhost
-
 - name: Create LXC containers
   include_tasks: create_lxc.yml
   loop: "{{ proxmox_lxc_containers_present }}"
