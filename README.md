@@ -113,7 +113,7 @@ Seconds to wait for the LXC to be started.
       vmid:
 
 You can specify the VMID for the container that you want to create. If you don't set this, the next available ID will
-automatically picked. If the specified ID is already taken, the play will fail.
+be automatically picked. If the specified ID is already taken, the play will fail.
 
 Example Playbook
 ----------------
