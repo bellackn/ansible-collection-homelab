@@ -11,7 +11,7 @@ Proxmox instance.
 How to Use
 ----------
 
-Basically, the role bases upon the `proxmox_lxc_containers_present` and `proxmox_lxc_containers_absent` variables to
+The role bases upon the `proxmox_lxc_containers_present` and `proxmox_lxc_containers_absent` variables to
 spawn or delete LXCs. You can put a list of LXCs into these variables; the list items use the same keys like the 
 [Proxmox community module][1]. There are a lot of sane default values for most of the possible settings, but you can
 override each of them, either on a global level by overriding the default `proxmox_lxc_*` variable, or for a specific
@@ -66,7 +66,7 @@ possible variables and check the example playbook. For the absent container list
 
     proxmox_lxc_node: "{{ proxmox_lxc_api_host }}"
 
-The name of the Proxmox node. Defaults to `proxmox_lxc_proxmox_host`. You might want to change this if you have multiple
+The name of the Proxmox node. Defaults to `proxmox_lxc_api_host`. You might want to change this if you have multiple
 nodes in your cluster.
 
     proxmox_lxc_cores: 1
