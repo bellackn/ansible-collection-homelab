@@ -32,11 +32,9 @@
     validate_certs: "{{ item.validate_certs | default(proxmox_lxc_validate_certs) }}"
     vmid: "{{ item.vmid | default(omit) }}"
     unprivileged: "{{ item.unprivileged | default(proxmox_lxc_unprivileged) }}"
-  delegate_to: localhost
   register: proxmox_lxc_created
 
 - name: "Wait for creation of '{{ item.hostname }}'"  # noqa 503
-  delegate_to: localhost
   wait_for:
     timeout: "{{ proxmox_lxc_creation_timeout }}"
   when: proxmox_lxc_created.changed
@@ -50,13 +48,11 @@
     node: "{{ item.node | default(proxmox_lxc_node) }}"
     proxmox_default_behavior: no_defaults
     state: started
-  delegate_to: localhost
   register: proxmox_lxc_started
 
 - name: "Wait for LXC '{{ item.hostname }}' to be started"  # noqa 503
   wait_for:
     timeout: 5
-  delegate_to: localhost
   when: proxmox_lxc_started.changed
 
 - name: Ping outside  # noqa 503
@@ -72,4 +68,3 @@
     port: 22
     search_regex: OpenSSH
     timeout: "{{ proxmox_lxc_network_timeout }}"
-  delegate_to: localhost
