@@ -64,7 +64,7 @@
 
 - name: "Wait until sshd of LXC '{{ item.hostname }}' is ready"
   wait_for:
-    host: "{{ inventory_hostname }}"
+    host: "{{ item.hostname }}"
     port: 22
     search_regex: OpenSSH
     timeout: "{{ proxmox_lxc_network_timeout }}"
