@@ -1,4 +1,9 @@
 ---
+- name: "Extract specified IP address of LXC '{{ item.hostname }}"
+  set_fact:
+    _proxmox_lxc_ip_address: "{{ item.netif | regex_replace('^.*ip=(.*?)\/.*$', '\\1') | trim }}"
+  when: item.netif is defined or proxmox_lxc_netif | length > 0
+
 - name: "Create LXC '{{ item.hostname }}'"
   community.general.proxmox:
     api_host: "{{ item.api_host | default(proxmox_lxc_api_host) }}"
@@ -62,9 +67,12 @@
     - proxmox_lxc_created.changed
     - item.netif is defined or proxmox_lxc_netif | length > 0
 
-- name: "Wait until sshd of LXC '{{ item.hostname }}' is ready"
+- name: "Wait until sshd of LXC '{{ item.hostname }}' is ready"  # noqa 503
   wait_for:
-    host: "{{ inventory_hostname }}"
+    host: "{{ _proxmox_lxc_ip_address }}"
     port: 22
     search_regex: OpenSSH
     timeout: "{{ proxmox_lxc_network_timeout }}"
+  when:
+    - proxmox_lxc_created.changed
+    - item.netif is defined or proxmox_lxc_netif | length > 0
