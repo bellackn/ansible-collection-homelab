@@ -67,7 +67,7 @@
     - proxmox_lxc_created.changed
     - item.netif is defined or proxmox_lxc_netif | length > 0
 
-- name: "Wait until sshd of LXC '{{ item.hostname }}' is ready"
+- name: "Wait until sshd of LXC '{{ item.hostname }}' is ready"  # noqa 503
   wait_for:
     host: "{{ _proxmox_lxc_ip_address }}"
     port: 22
