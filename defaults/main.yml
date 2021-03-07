@@ -14,7 +14,6 @@ proxmox_lxc_hookscript: ""
 proxmox_lxc_memory: 512
 proxmox_lxc_mounts: {}
 proxmox_lxc_nameserver: ""
-proxmox_lxc_netif: {}
 proxmox_lxc_node: "{{ proxmox_lxc_api_host }}"
 proxmox_lxc_onboot: no
 proxmox_lxc_password: ""  # Minimum length is 5

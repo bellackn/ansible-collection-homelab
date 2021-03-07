@@ -2,7 +2,7 @@
 - name: "Extract specified IP address of LXC '{{ item.hostname }}"
   set_fact:
     _proxmox_lxc_ip_address: "{{ item.netif | regex_replace('^.*ip=(.*?)\/.*$', '\\1') | trim }}"
-  when: item.netif is defined or proxmox_lxc_netif | length > 0
+  when: item.netif is defined
 
 - name: "Create LXC '{{ item.hostname }}'"
   community.general.proxmox:
@@ -25,7 +25,7 @@
     onboot: "{{ item.onboot | default(proxmox_lxc_onboot) }}"
     ostemplate: "{{ item.ostemplate | default(proxmox_lxc_ostemplate) }}"
     password: "{{ item.password | default(proxmox_lxc_password) }}"
-    netif: "{{ item.netif | default(proxmox_lxc_netif) }}"
+    netif: "{{ item.netif | default(omit) }}"
     pool: "{{ item.pool | default(proxmox_lxc_pool | ternary(proxmox_lxc_pool, omit)) }}"
     proxmox_default_behavior: no_defaults
     pubkey: "{{ item.pubkey | default(proxmox_lxc_pubkey) }}"
@@ -65,7 +65,7 @@
   delegate_to: "{{ proxmox_lxc_node }}"
   when:
     - proxmox_lxc_created.changed
-    - item.netif is defined or proxmox_lxc_netif | length > 0
+    - item.netif is defined
 
 - name: "Wait until sshd of LXC '{{ item.hostname }}' is ready"  # noqa 503
   wait_for:
@@ -75,4 +75,4 @@
     timeout: "{{ proxmox_lxc_network_timeout }}"
   when:
     - proxmox_lxc_created.changed
-    - item.netif is defined or proxmox_lxc_netif | length > 0
+    - item.netif is defined

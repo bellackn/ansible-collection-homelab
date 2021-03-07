@@ -54,7 +54,8 @@ Container template to be used.
 
     proxmox_lxc_password: ""  # Minimum length is 5
 
-Initial root password for the container.
+Initial root password for the container. Either set it globally with this variable or set it for each container
+individually, like in the example playbook.
 
 ### Optional
 
@@ -82,7 +83,6 @@ nodes in your cluster.
     proxmox_lxc_memory: 512
     proxmox_lxc_mounts: {}
     proxmox_lxc_nameserver: ""
-    proxmox_lxc_netif: {}
     proxmox_lxc_onboot: no
     proxmox_lxc_pool: ""
     proxmox_lxc_pubkey: ""
