@@ -52,7 +52,7 @@
 
 - name: "Wait for LXC '{{ item.hostname }}' to be started"  # noqa 503
   wait_for:
-    timeout: 5
+    timeout: "{{ proxmox_lxc_starting_timeout }}"
   when: proxmox_lxc_started.changed
 
 - name: Ping outside  # noqa 503
