@@ -33,7 +33,6 @@
     vmid: "{{ item.vmid | default(omit) }}"
     unprivileged: "{{ item.unprivileged | default(proxmox_lxc_unprivileged) }}"
   register: proxmox_lxc_created
-  no_log: true
 
 - name: "Wait for creation of '{{ item.hostname }}'"  # noqa 503
   wait_for:
