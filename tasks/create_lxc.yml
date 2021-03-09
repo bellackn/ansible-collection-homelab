@@ -2,7 +2,10 @@
 - name: "Extract specified IP address of LXC '{{ item.hostname }}"
   set_fact:
     _proxmox_lxc_ip_address: "{{ item.netif | regex_replace('^.*ip=(.*?)\/.*$', '\\1') | trim }}"
-  when: item.netif is defined
+  when:
+    - item.netif is defined
+    - "'ip=dhcp' not in item.netif"  # We don't know the IP address when DHCP is used
+    - not item.netif | regex_search('ip=(.*?)\/[0-31]')  # If we pass a CIDR range bigger than /32, we also don't know
 
 - name: "Create LXC '{{ item.hostname }}'"
   community.general.proxmox:
@@ -67,12 +70,32 @@
     - proxmox_lxc_created.changed
     - item.netif is defined
 
-- name: "Wait until sshd of LXC '{{ item.hostname }}' is ready"  # noqa 503
-  wait_for:
-    host: "{{ _proxmox_lxc_ip_address }}"
-    port: 22
-    search_regex: OpenSSH
-    timeout: "{{ proxmox_lxc_network_timeout }}"
+- block:
+  - name: "Wait until sshd of LXC '{{ item.hostname }}' is ready"  # noqa 503
+    wait_for:
+      host: "{{ _proxmox_lxc_ip_address | default(item.hostname) }}"
+      port: 22
+      search_regex: OpenSSH
+      timeout: "{{ proxmox_lxc_network_timeout }}"
+  rescue:
+    - name: Show debugging instructions
+      fail:
+        msg: |
+          Port 22 of '{{ item.hostname }}' either was not ready yet or the hostname couldn't be resolved. Possible
+          reasons:
+
+          * Your timeout might be too low - set proxmox_lxc_network_timeout to something larger than
+            '{{ proxmox_lxc_network_timeout }}'
+
+          * If you have specified a static IP, your router may have set another hostname to your LXC than
+            '{{ item.hostname }}'. For example, Fritz!Boxes do that when they are acting as DHCP server - if you set a
+            static IP via netif, the host will resolve to something like `PC-<YOUR.STATIC-IP>` instead of
+            '{{ item.hostname }}'. If that's the case, you can try the following:
+
+              ** Change the hostname manually in your router interface and check if Ansible can reach your host then, e.g.
+              by running `ansible {{ item.hostname }} -m ping [-i /your/inventory]`
+
+              ** Let your router completely handle the IP address and use `ip=dhcp` in your netif configuration
   when:
     - proxmox_lxc_created.changed
     - item.netif is defined
