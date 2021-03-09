@@ -92,8 +92,8 @@
             static IP via netif, the host will resolve to something like `PC-<YOUR.STATIC-IP>` instead of
             '{{ item.hostname }}'. If that's the case, you can try the following:
 
-              ** Change the hostname manually in your router interface and check if Ansible can reach your host then, e.g.
-              by running `ansible {{ item.hostname }} -m ping [-i /your/inventory]`
+              ** Change the hostname manually in your router interface and check if Ansible can reach your host then,
+                 e.g. by running `ansible {{ item.hostname }} -m ping [-i /your/inventory]`
 
               ** Let your router completely handle the IP address and use `ip=dhcp` in your netif configuration
   when:
