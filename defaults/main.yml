@@ -1,7 +1,7 @@
 ---
-#proxmox_lxc_api_host:
-#proxmox_lxc_api_user:
-#proxmox_lxc_api_password:
+# proxmox_lxc_api_host:
+# proxmox_lxc_api_user:
+# proxmox_lxc_api_password:
 
 proxmox_lxc_api_node: "{{ proxmox_lxc_api_host }}"
 
