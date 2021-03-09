@@ -5,7 +5,7 @@
   when:
     - item.netif is defined
     - "'ip=dhcp' not in item.netif"  # We don't know the IP address when DHCP is used
-    - not item.netif | regex_search('ip=(.*?)\/[0-31]')  # If we pass a CIDR range bigger than /32, we also don't know
+    - not item.netif | regex_search('ip=(.*?)\/(?!32)')  # If we pass a CIDR range other than /32, we also don't know
 
 - name: "Create LXC '{{ item.hostname }}'"
   community.general.proxmox:
@@ -65,7 +65,7 @@
 
 - name: Ping outside  # noqa 503
   command: "lxc-attach -n {{ proxmox_lxc_started.msg[3:6] }} -- ping {{ proxmox_lxc_ping_server }} -c 2"
-  delegate_to: "{{ proxmox_lxc_node }}"
+  delegate_to: "{{ proxmox_lxc_api_node }}"
   when:
     - proxmox_lxc_created.changed
     - item.netif is defined

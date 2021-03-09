@@ -44,9 +44,10 @@ The hostname of your Proxmox instance.
 The credentials for the API user on the Proxmox instance. If you use PAM to authenticate, make sure to append `@pam` to
 the username. You should define these variables in your local repository and encrypt it using Ansible Vault.
 
-    proxmox_lxc_hostname:
+    - hostname:
 
-Hostname of the LXC that will be created/deleted.
+Hostname of the LXC that will be created/deleted. Must be passed to `proxmox_lxc_containers_present`/
+`proxmox_lxc_containers_absent`.
 
     proxmox_lxc_ostemplate:
 
@@ -71,6 +72,12 @@ possible variables and check the example playbook. For the absent container list
 
 The name of the Proxmox node. Defaults to `proxmox_lxc_api_host`. You might want to change this if you have multiple
 nodes in your cluster.
+
+    proxmox_lxc_api_node: "{{ proxmox_lxc_api_host }}"
+
+The FQDN for the Proxmox node that you want to target. This is used for delegating the "Ping outside" task and therefore
+must be resolvable by Ansible. It's handy in situations where your Proxmode node isn't resolvable with the same name
+that it has within the Proxmox cluster (see [#4](https://github.com/bellackn/ansible-role-proxmox-lxc/issues/4)).
 
     proxmox_lxc_cores: 1
     proxmox_lxc_cpus: 1
@@ -112,8 +119,7 @@ defined.
 
 Seconds to wait for the LXC to be started.
 
-    proxmox_lxc_containers_present:
-      vmid:
+    - vmid:
 
 You can specify the VMID for the container that you want to create. If you don't set this, the next available ID will
 be automatically picked. If the specified ID is already taken, the play will fail.
