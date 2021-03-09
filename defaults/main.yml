@@ -1,7 +1,13 @@
 ---
+#proxmox_lxc_api_host:
+#proxmox_lxc_api_user:
+#proxmox_lxc_api_password:
+
+proxmox_lxc_api_node: "{{ proxmox_lxc_api_host }}"
+
 proxmox_lxc_containers_present: []
 proxmox_lxc_containers_absent: []
-proxmox_lxc_ostemplate:
+proxmox_lxc_ostemplate: ""
 
 proxmox_lxc_cores: 1
 proxmox_lxc_cpus: 1
