@@ -101,11 +101,12 @@ Seconds to wait for successful creation of an LXC.
 
     proxmox_lxc_network_timeout: 60
 
-Seconds to wait for the SSH port of the LXC to become available.
+Seconds to wait for the SSH port of the LXC to become available. Only effective if a network interface was defined.
 
     proxmox_lxc_ping_server: 8.8.8.8
 
-IP address of the server to ping in order to check network functionality.
+IP address of the server to ping in order to check network functionality. Only effective if a network interface was
+defined.
 
     proxmox_lxc_starting_timeout: 5
 
