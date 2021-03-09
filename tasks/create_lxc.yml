@@ -71,12 +71,12 @@
     - item.netif is defined
 
 - block:
-  - name: "Wait until sshd of LXC '{{ item.hostname }}' is ready"  # noqa 503
-    wait_for:
-      host: "{{ _proxmox_lxc_ip_address | default(item.hostname) }}"
-      port: 22
-      search_regex: OpenSSH
-      timeout: "{{ proxmox_lxc_network_timeout }}"
+    - name: "Wait until sshd of LXC '{{ item.hostname }}' is ready"  # noqa 503
+      wait_for:
+        host: "{{ _proxmox_lxc_ip_address | default(item.hostname) }}"
+        port: 22
+        search_regex: OpenSSH
+        timeout: "{{ proxmox_lxc_network_timeout }}"
   rescue:
     - name: Show debugging instructions
       fail:
