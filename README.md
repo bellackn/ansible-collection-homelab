@@ -1,6 +1,5 @@
 [![Ansible Galaxy](https://img.shields.io/ansible/role/53436)](https://galaxy.ansible.com/bellackn/proxmox_lxc)
 ![build_status_badge_ci](https://github.com/bellackn/ansible-role-proxmox-lxc/actions/workflows/ci.yml/badge.svg)
-![build_status_badge_release](https://github.com/bellackn/ansible-role-proxmox-lxc/actions/workflows/release.yml/badge.svg)
 
 bellackn.proxmox_lxc
 ===============
