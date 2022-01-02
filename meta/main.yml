@@ -1,6 +1,7 @@
 ---
 galaxy_info:
   role_name: proxmox_lxc
+  namespace: bellackn
   author: Nico Bellack
   description: Sets up LXCs on Proxmox instances
   license: MIT
