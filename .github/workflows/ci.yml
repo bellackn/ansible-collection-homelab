@@ -8,7 +8,7 @@ defaults:
   run:
     working-directory: "bellackn.proxmox_lxc"
 
-"on":
+on:
   pull_request:
   push:
     branches:
@@ -35,6 +35,7 @@ jobs:
           key: ${{ runner.os }}-pip-latest-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-latest
+
       - name: Create ansible.cfg
         run: >
           printf '[defaults]\nroles_path=./tests/requirements/:../\ncollections_paths=./tests/requirements/:../'
@@ -50,25 +51,22 @@ jobs:
           pip3 install wheel --upgrade
 
       - name: Install test dependencies
-        run: >
-          pip3 install yamllint
-          ansible
-          ansible-lint
-          --upgrade
+        run: pip3 install --upgrade yamllint ansible ansible-lint 
+
       - name: Install role requirements
-        run: |
-          pip3 install -r requirements.txt
+        run: pip3 install -r requirements.txt
+
       - name: Install Galaxy requirements
         run: |
           ansible-galaxy install -r tests/requirements.yml -p ./tests/requirements
           ansible-galaxy collection install -r tests/requirements.yml -p ./tests/requirements
+          
       - name: Run linters
         run: |
           yamllint .
           ansible-lint
       - name: Test syntax
-        run: |
-          ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+        run: ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
   galaxy:
     name: "Ansible Galaxy import"

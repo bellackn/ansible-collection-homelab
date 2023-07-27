@@ -9,5 +9,4 @@ rules:
     allowed-values: ['true', 'false', 'yes', 'no']
 
 ignore: |
-  .travis.yml
   tests/requirements/
