@@ -11,4 +11,4 @@ rules:
     spaces: 2
 
 ignore:
-  - tests/requirements/
+  - tests/requirements/**
