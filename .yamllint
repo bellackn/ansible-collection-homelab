@@ -3,10 +3,12 @@ extends: default
 
 rules:
   line-length:
-    max: 120
     level: warning
-  truthy:
-    allowed-values: ['true', 'false', 'yes', 'no']
+    max: 80
+  indentation:
+    level: error
+    indent-sequences: consistent
+    spaces: 2
 
-ignore: |
-  tests/requirements/
+ignore:
+  - tests/requirements/
