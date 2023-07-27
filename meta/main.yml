@@ -5,17 +5,12 @@ galaxy_info:
   author: Nico Bellack
   description: Sets up LXCs on Proxmox instances
   license: MIT
-  min_ansible_version: 2.9
+  min_ansible_version: '2.9'
 
   platforms:
     - name: Ubuntu
       versions:
-        - focal
-        - bionic
-    - name: Debian
-      versions:
-        - buster
-        - stretch
+        - jammy
 
   galaxy_tags:
     - proxmox
