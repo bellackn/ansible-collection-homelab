@@ -18,8 +18,17 @@ on:
 jobs:
 
   lint:
-    name: Lint w/ latest Ansible
+    name: "Lint (${{ matrix.NAME }})"
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - NAME: min_ansible_version
+            ANSIBLE_VERSION: "==8.2.*"
+            ANSIBLE_LINT_VERSION: "==6.17.*"
+          - NAME: latest
+            ANSIBLE_VERSION: ""
+            ANSIBLE_LINT_VERSION: ""
 
     steps:
 
@@ -32,9 +41,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-latest-${{ hashFiles('**/requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ matrix.ANSIBLE_VERSION }}-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-pip-latest
+            ${{ runner.os }}-pip-${{ matrix.ANSIBLE_VERSION }}
 
       - name: Create ansible.cfg
         run: >
@@ -51,7 +60,11 @@ jobs:
           pip3 install wheel --upgrade
 
       - name: Install test dependencies
-        run: pip3 install --upgrade yamllint ansible ansible-lint 
+        run: |
+          pip3 install --upgrade 
+          yamllint
+          ansible${{ matrix.ANSIBLE_VERSION }}
+          ansible-lint${{ matrix.ANSIBLE_LINT_VERSION }}
 
       - name: Install role requirements
         run: pip3 install -r requirements.txt
@@ -60,7 +73,7 @@ jobs:
         run: |
           ansible-galaxy install -r tests/requirements.yml -p ./tests/requirements
           ansible-galaxy collection install -r tests/requirements.yml -p ./tests/requirements
-          
+
       - name: Run linters
         run: |
           yamllint .
