@@ -76,8 +76,9 @@ jobs:
 
       - name: Run linters
         run: |
+          yamllint --list-files .
           yamllint .
-          ansible-lint
+          ansible-lint .
       - name: Test syntax
         run: ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
