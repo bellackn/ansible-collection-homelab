@@ -60,8 +60,8 @@ jobs:
           pip3 install wheel --upgrade
 
       - name: Install test dependencies
-        run: |
-          pip3 install --upgrade 
+        run: >-
+          pip3 install --upgrade
           yamllint
           ansible${{ matrix.ANSIBLE_VERSION }}
           ansible-lint${{ matrix.ANSIBLE_LINT_VERSION }}
