@@ -25,10 +25,8 @@ jobs:
         include:
           - NAME: min_ansible_version
             ANSIBLE_VERSION: "==2.9.*"
-            ANSIBLE_LINT_VERSION: "==4.2.*"
           - NAME: latest
             ANSIBLE_VERSION: ""
-            ANSIBLE_LINT_VERSION: ""
 
     steps:
 
@@ -62,7 +60,7 @@ jobs:
         run: >
           pip3 install yamllint
           ansible${{ matrix.ANSIBLE_VERSION }}
-          ansible-lint${{ matrix.ANSIBLE_LINT_VERSION }}
+          ansible-lint
           --upgrade
       - name: Install role requirements
         run: |
