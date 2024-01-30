@@ -20,7 +20,7 @@ jobs:
 
       - name: Create ansible.cfg
         run: >
-          printf '[defaults]\nroles_path=./tests/requirements/:../\ncollections_path=./tests/requirements/:../'
+          printf '[defaults]\nroles_path=../'
           > roles/proxmox_lxc/ansible.cfg
 
       - name: Set up Python 3.10
@@ -36,7 +36,8 @@ jobs:
       - name: Install Galaxy requirements
         run: |
           cd roles/proxmox_lxc
-          ansible-galaxy install -r tests/requirements.yml
+          ansible-galaxy role install -r tests/requirements.yml -p /tmp
+          ansible-galaxy collection install -r tests/requirements.yml -p /tmp
 
       - name: Run yamllint
         run: yamllint .
