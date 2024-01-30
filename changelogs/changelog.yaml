@@ -11,3 +11,10 @@ releases:
     - 11-migrate-to-collection.yml
     - v5.0.0_summary.yaml
     release_date: '2024-01-30'
+  5.0.1:
+    changes:
+      release_summary: This is a dummy release to check if releasing via GH Actions
+        works.
+    fragments:
+    - v5.0.1_dummy.yaml
+    release_date: '2024-01-30'

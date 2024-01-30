@@ -5,6 +5,14 @@ Bellackn Homelab Release Notes
 .. contents:: Topics
 
 
+v5.0.1
+======
+
+Release Summary
+---------------
+
+This is a dummy release to check if releasing via GH Actions works.
+
 v5.0.0
 ======
 
