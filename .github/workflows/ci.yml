@@ -59,3 +59,13 @@ jobs:
         uses: ansible-community/ansible-test-gh-action@release/v1
         with:
           testing-type: sanity
+
+  galaxy:
+    name: Build collection
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build collection tarball
+        uses: artis3n/ansible_galaxy_collection@v2
+        with:
+          api_key: '${{ secrets.GALAXY_API_KEY }}'
+          publish: false
