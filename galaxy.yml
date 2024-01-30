@@ -19,7 +19,6 @@ readme: README.md
 authors:
   - Nico Bellack <blcknc@pm.me>
 
-
 ### OPTIONAL but strongly recommended
 # A short summary description of the collection
 description: Holds various utils that are handy for a homelab infrastructure setup.
