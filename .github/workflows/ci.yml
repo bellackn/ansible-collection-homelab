@@ -61,9 +61,10 @@ jobs:
       - name: Install Galaxy requirements
         run: |
           ansible-galaxy install -r tests/requirements.yml -p ./tests/requirements
-          ansible-galaxy collection install -r tests/requirements.yml -p ./tests/requirements
       - name: Run linters
         run: |
+          pwd
+          ls -l
           yamllint .
           ansible-lint
       - name: Test syntax
