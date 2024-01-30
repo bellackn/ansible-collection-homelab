@@ -8,6 +8,11 @@ Bellackn Homelab Release Notes
 v5.0.0
 ======
 
+Release Summary
+---------------
+
+This is the first release I've made with antsibull-changelog. Details below.
+
 Breaking Changes / Porting Guide
 --------------------------------
 

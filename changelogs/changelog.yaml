@@ -5,6 +5,9 @@ releases:
       breaking_changes:
       - This PR converts the former `bellackn.proxmox_lxc` role into a part of the
         `bellackn.homelab` collection. Check the updated READMEs for details.
+      release_summary: This is the first release I've made with antsibull-changelog.
+        Details below.
     fragments:
     - 11-migrate-to-collection.yml
+    - v5.0.0_summary.yaml
     release_date: '2024-01-30'
