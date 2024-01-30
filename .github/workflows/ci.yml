@@ -29,12 +29,12 @@ jobs:
           python-version: "3.10"
 
       - name: Install test dependencies
-        run: >
+        run: |
           pip install wheel --upgrade
           pip install --upgrade ansible ansible-lint yamllint
 
       - name: Install Galaxy requirements
-        run: >
+        run: |
           cd roles/proxmox_lxc
           ansible-galaxy install -r roles/proxmox_lxc/tests/requirements.yml
 
@@ -45,7 +45,7 @@ jobs:
         run: ansible-lint
 
       - name: Test syntax
-        run: >
+        run: |
           cd roles/proxmox_lxc
           ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
