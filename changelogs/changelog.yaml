@@ -1,6 +1,6 @@
 ancestor: null
 releases:
-  1.0.0:
+  5.0.0:
     changes:
       breaking_changes:
       - This PR converts the former `bellackn.proxmox_lxc` role into a part of the
