@@ -1,2 +1,0 @@
-# This role needs to have the following PIP components installed
-proxmoxer>=1.1.1

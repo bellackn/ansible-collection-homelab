@@ -24,3 +24,4 @@ dependencies:
     vars:
       pip_install_packages:
         - name: proxmoxer
+          version: <=2.0.1

@@ -1,6 +1,0 @@
----
-profile: shared
-
-exclude_paths:
-  - .cache/
-  - tests/requirements/
