@@ -1,2 +1,5 @@
 .cache
 .idea
+
+bellackn-homelab-*.tar.gz
+tests/output

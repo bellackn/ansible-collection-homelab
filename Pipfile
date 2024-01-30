@@ -9,6 +9,8 @@ proxmoxer = ">=1.1.1"
 [dev-packages]
 yamllint = "*"
 ansible-lint = "*"
+argcomplete = "*"
+antsibull-changelog = "*"
 
 [requires]
 python_version = "3.10"

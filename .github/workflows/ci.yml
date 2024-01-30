@@ -1,13 +1,6 @@
 ---
 name: CI
 
-env:
-  ROLE_NAME: bellackn.proxmox_lxc
-
-defaults:
-  run:
-    working-directory: bellackn.proxmox_lxc
-
 "on":
   pull_request:
   push:
@@ -18,50 +11,34 @@ defaults:
 jobs:
 
   lint:
-    name: Lint w/ latest Ansible
+    name: Run linters
     runs-on: ubuntu-latest
-
     steps:
 
       - name: Check out the codebase
         uses: actions/checkout@v2
-        with:
-          path: '${{ env.ROLE_NAME }}'
 
-      - name: Cache pip
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-latest-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-latest
-
+      # we need '../' so the actual role can be tested, and '/tmp' is where dependencies will be installed
       - name: Create ansible.cfg
         run: >
-          printf '[defaults]\nroles_path=./tests/requirements/:../\ncollections_path=./tests/requirements/:../'
-          > ansible.cfg
+          printf '[defaults]\nroles_path=../:/tmp'
+          > roles/proxmox_lxc/ansible.cfg
 
-      - name: Set up Python 3
+      - name: Set up Python 3.10
         uses: actions/setup-python@v2
         with:
-          python-version: "3.x"
-
-      - name: Install pip tools
-        run: |
-          pip3 install wheel --upgrade
+          python-version: "3.10"
 
       - name: Install test dependencies
-        run: >
-          pip3 install yamllint
-          ansible
-          ansible-lint
-          --upgrade
-
-      - name: Install role requirements
-        run: pip3 install -r requirements.txt
+        run: |
+          pip install wheel --upgrade
+          pip install --upgrade ansible ansible-lint yamllint
 
       - name: Install Galaxy requirements
-        run: ansible-galaxy install -r tests/requirements.yml -p ./tests/requirements
+        run: |
+          cd roles/proxmox_lxc
+          ansible-galaxy role install -r tests/requirements.yml -p /tmp
+          ansible-galaxy collection install -r tests/requirements.yml -p /tmp
 
       - name: Run yamllint
         run: yamllint .
@@ -70,16 +47,15 @@ jobs:
         run: ansible-lint
 
       - name: Test syntax
-        run: ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+        run: |
+          cd roles/proxmox_lxc
+          ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
-  galaxy:
-    name: Ansible Galaxy import
-    needs:
-      - lint
-    if: github.ref == 'refs/heads/main'
+  ansible-test:
+    name: Run ansible-test
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger a new import on Ansible Galaxy
-        uses: robertdebock/galaxy-action@1.2.1
+      - name: Perform sanity testing with ansible-test
+        uses: ansible-community/ansible-test-gh-action@release/v1
         with:
-          galaxy_api_key: ${{ secrets.GALAXY_API_KEY }}
+          testing-type: sanity

@@ -1,0 +1,10 @@
+ancestor: null
+releases:
+  1.0.0:
+    changes:
+      breaking_changes:
+      - This PR converts the former `bellackn.proxmox_lxc` role into a part of the
+        `bellackn.homelab` collection. Check the updated READMEs for details.
+    fragments:
+    - 11-migrate-to-collection.yml
+    release_date: '2024-01-30'
