@@ -1,5 +1,5 @@
 ==============================
-bellackn.homelab Release Notes
+Bellackn Homelab Release Notes
 ==============================
 
 .. contents:: Topics

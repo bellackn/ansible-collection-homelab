@@ -35,6 +35,7 @@ jobs:
 
       - name: Install Galaxy requirements
         run: ansible-galaxy install -r tests/requirements.yml -p ./tests/requirements
+        working-directory: roles/proxmox_lxc
 
       - name: Run yamllint
         run: yamllint .
@@ -44,6 +45,7 @@ jobs:
 
       - name: Test syntax
         run: ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+        working-directory: roles/proxmox_lxc
 
   ansible-test:
     name: Run ansible-test
