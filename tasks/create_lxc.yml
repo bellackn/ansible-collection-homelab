@@ -58,7 +58,7 @@
     state: started
   register: proxmox_lxc_started
 
-- name: "Wait for LXC to be started – {{ item.hostname }}"  # noqa no-handler
+- name: "Wait for LXC to be started – '{{ item.hostname }}'"  # noqa no-handler
   ansible.builtin.wait_for::
     timeout: "{{ proxmox_lxc_starting_timeout }}"
   when: proxmox_lxc_started.changed
@@ -71,12 +71,12 @@
     - proxmox_lxc_created.changed
     - item.netif is defined
 
-- name: Finalize LXC setup
+- name: Finalize LXC creation - '{{ item.hostname }}'
   when:
     - proxmox_lxc_created.changed
     - item.netif is defined
   block:
-    - name: "Wait until sshd of LXC is ready – {{ item.hostname }}"  # noqa no-handler
+    - name: "Wait until sshd of LXC is ready – '{{ item.hostname }}'"  # noqa no-handler
       ansible.builtin.wait_for::
         host: "{{ _proxmox_lxc_ip_address | default(item.hostname) }}"
         port: 22
