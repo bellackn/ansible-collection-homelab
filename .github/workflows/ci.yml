@@ -33,6 +33,9 @@ jobs:
           pip install wheel --upgrade
           pip install --upgrade ansible ansible-lint yamllint
 
+      - name: Install Galaxy requirements
+        run: ansible-galaxy install -r tests/requirements.yml -p ./tests/requirements
+
       - name: Run yamllint
         run: yamllint .
 
