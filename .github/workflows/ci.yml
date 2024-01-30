@@ -6,7 +6,7 @@ env:
 
 defaults:
   run:
-    working-directory: "bellackn.proxmox_lxc"
+    working-directory: bellackn.proxmox_lxc
 
 "on":
   pull_request:
@@ -35,6 +35,7 @@ jobs:
           key: ${{ runner.os }}-pip-latest-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-latest
+
       - name: Create ansible.cfg
         run: >
           printf '[defaults]\nroles_path=./tests/requirements/:../\ncollections_path=./tests/requirements/:../'
@@ -55,24 +56,24 @@ jobs:
           ansible
           ansible-lint
           --upgrade
+
       - name: Install role requirements
-        run: |
-          pip3 install -r requirements.txt
+        run: pip3 install -r requirements.txt
+
       - name: Install Galaxy requirements
-        run: |
-          ansible-galaxy install -r tests/requirements.yml -p ./tests/requirements
-      - name: Run linters
-        run: |
-          pwd
-          ls -l
-          yamllint .
-          ansible-lint
+        run: ansible-galaxy install -r tests/requirements.yml -p ./tests/requirements
+
+      - name: Run yamllint
+        run: yamllint .
+
+      - name: Run ansible-lint
+        run: ansible-lint
+
       - name: Test syntax
-        run: |
-          ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+        run: ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
   galaxy:
-    name: "Ansible Galaxy import"
+    name: Ansible Galaxy import
     needs:
       - lint
     if: github.ref == 'refs/heads/main'
