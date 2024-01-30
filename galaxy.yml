@@ -1,7 +1,7 @@
 ---
 namespace: bellackn
 name: homelab
-version: 5.0.0
+version: 5.0.1
 readme: README.md
 authors:
   - Nico Bellack <blcknc@pm.me>

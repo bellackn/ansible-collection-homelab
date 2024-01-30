@@ -10,43 +10,10 @@ name: CI
 
 jobs:
 
-  lint:
-    name: Run linters
-    runs-on: ubuntu-latest
-    steps:
-
-      - uses: actions/checkout@v3
-
-      # we need '../' so the actual role can be tested, and '/tmp' is where dependencies will be installed
-      - name: Create ansible.cfg
-        run: >
-          printf '[defaults]\nroles_path=../:/tmp'
-          > roles/proxmox_lxc/ansible.cfg
-
-      - name: Set up Python 3.10
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.10"
-
-      - name: Install test dependencies
-        run: pip install --upgrade ansible ansible-lint yamllint
-
-      - name: Install Galaxy requirements
-        run: |
-          cd roles/proxmox_lxc
-          ansible-galaxy role install -r tests/requirements.yml -p /tmp
-          ansible-galaxy collection install -r tests/requirements.yml -p /tmp
-
-      - name: Run yamllint
-        run: yamllint .
-
-      - name: Run ansible-lint
-        run: ansible-lint
-
-      - name: Test syntax
-        run: |
-          cd roles/proxmox_lxc
-          ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+  test-role-proxmox-lxc:
+    uses: ./.github/workflows/test_role.yml
+    with:
+      ROLE_NAME: proxmox_lxc
 
   ansible-test:
     name: Run ansible-test
