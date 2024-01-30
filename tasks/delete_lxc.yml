@@ -9,7 +9,7 @@
     proxmox_default_behavior: no_defaults
     state: stopped
   register: lxc_stop
-  ignore_errors: yes
+  ignore_errors: true
 
 - name: "Delete LXC '{{ item.hostname }}'"
   community.general.proxmox:
