@@ -7,4 +7,5 @@ rules:
     level: warning
 
 ignore:
+  - changelogs/
   - roles/proxmox_lxc/tests/requirements/
