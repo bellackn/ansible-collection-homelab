@@ -6,6 +6,10 @@ This is an Ansible collection that holds various roles that are handy for a home
 it just consists of good old Ansible roles. I just had to convert them into a collection because RedHat forced me, 
 basically.
 
+## How to Install
+
+`ansible-galaxy collection install bellackn.homelab`
+
 ## Content
 
 ### [bellackn.homelab.proxmox_lxc](roles/proxmox_lxc/README.md)
