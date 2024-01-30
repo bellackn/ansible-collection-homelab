@@ -11,6 +11,7 @@ name: CI
 jobs:
 
   test-role-proxmox-lxc:
+    name: Test proxmox_lxc role
     uses: ./.github/workflows/test_role.yml
     with:
       ROLE_NAME: proxmox_lxc
