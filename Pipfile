@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 proxmoxer = ">=1.1.1"
+ansible = ">=2.16.3"
 
 [dev-packages]
 yamllint = "*"
