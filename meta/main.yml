@@ -11,6 +11,7 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - jammy
+        - mantic
 
   galaxy_tags:
     - proxmox
@@ -19,7 +20,7 @@ galaxy_info:
 dependencies:
 
   - role: geerlingguy.pip
-    version: 2.0.0
+    version: 3.0.2
     vars:
       pip_install_packages:
         - name: proxmoxer

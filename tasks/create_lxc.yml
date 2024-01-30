@@ -1,6 +1,6 @@
 ---
 - name: "Extract specified IP address of LXC '{{ item.hostname }}"
-  set_fact:
+  ansible.builtin.set_fact:
     _proxmox_lxc_ip_address: "{{ item.netif | regex_replace('^.*ip=(.*?)\/.*$', '\\1') | trim }}"
   when:
     - item.netif is defined
@@ -42,8 +42,8 @@
     unprivileged: "{{ item.unprivileged | default(proxmox_lxc_unprivileged) }}"
   register: proxmox_lxc_created
 
-- name: "Wait for creation of '{{ item.hostname }}'"  # noqa 503
-  wait_for:
+- name: "Wait for creation of '{{ item.hostname }}'"  # noqa no-handler
+  ansible.builtin.wait_for:
     timeout: "{{ proxmox_lxc_creation_timeout }}"
   when: proxmox_lxc_created.changed
 
@@ -58,28 +58,33 @@
     state: started
   register: proxmox_lxc_started
 
-- name: "Wait for LXC '{{ item.hostname }}' to be started"  # noqa 503
-  wait_for:
+- name: "Wait for LXC to be started – '{{ item.hostname }}'"  # noqa no-handler
+  ansible.builtin.wait_for::
     timeout: "{{ proxmox_lxc_starting_timeout }}"
   when: proxmox_lxc_started.changed
 
-- name: Ping outside  # noqa 503
-  command: "lxc-attach -n {{ proxmox_lxc_started.msg[3:6] }} -- ping {{ proxmox_lxc_ping_server }} -c 2"
+- name: Ping outside  # noqa no-handler
+  ansible.builtin.command: "lxc-attach -n {{ proxmox_lxc_started.msg[3:6] }} -- ping {{ proxmox_lxc_ping_server }} -c 2"
   delegate_to: "{{ proxmox_lxc_api_node }}"
+  changed_when: false
   when:
     - proxmox_lxc_created.changed
     - item.netif is defined
 
-- block:
-    - name: "Wait until sshd of LXC '{{ item.hostname }}' is ready"  # noqa 503
-      wait_for:
+- name: Finalize LXC creation - '{{ item.hostname }}'
+  when:
+    - proxmox_lxc_created.changed
+    - item.netif is defined
+  block:
+    - name: "Wait until sshd of LXC is ready – '{{ item.hostname }}'"  # noqa no-handler
+      ansible.builtin.wait_for::
         host: "{{ _proxmox_lxc_ip_address | default(item.hostname) }}"
         port: 22
         search_regex: OpenSSH
         timeout: "{{ proxmox_lxc_network_timeout }}"
   rescue:
     - name: Show debugging instructions
-      fail:
+      ansible.builtin.fail:
         msg: |
           Port 22 of '{{ item.hostname }}' either was not ready yet or the hostname couldn't be resolved. Possible
           reasons:
@@ -96,6 +101,3 @@
                  e.g. by running `ansible {{ item.hostname }} -m ping [-i /your/inventory]`
 
               ** Let your router completely handle the IP address and use `ip=dhcp` in your netif configuration
-  when:
-    - proxmox_lxc_created.changed
-    - item.netif is defined
