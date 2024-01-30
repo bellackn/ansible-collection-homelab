@@ -18,9 +18,10 @@ jobs:
       - name: Check out the codebase
         uses: actions/checkout@v2
 
+      # we need '../' so the actual role can be tested, and '/tmp' is where dependencies will be installed
       - name: Create ansible.cfg
         run: >
-          printf '[defaults]\nroles_path=../'
+          printf '[defaults]\nroles_path=../:/tmp'
           > roles/proxmox_lxc/ansible.cfg
 
       - name: Set up Python 3.10
