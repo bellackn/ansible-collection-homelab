@@ -3,4 +3,5 @@ profile: shared
 
 exclude_paths:
   - .cache/
+  - changelogs/
   - roles/proxmox_lxc/tests/requirements/

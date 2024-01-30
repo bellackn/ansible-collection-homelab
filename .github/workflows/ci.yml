@@ -21,7 +21,7 @@ jobs:
       - name: Create ansible.cfg
         run: >
           printf '[defaults]\nroles_path=./tests/requirements/:../\ncollections_path=./tests/requirements/:../'
-          > ansible.cfg
+          > roles/proxmox_lxc/ansible.cfg
 
       - name: Set up Python 3.10
         uses: actions/setup-python@v2
@@ -34,8 +34,9 @@ jobs:
           pip install --upgrade ansible ansible-lint yamllint
 
       - name: Install Galaxy requirements
-        run: ansible-galaxy install -r tests/requirements.yml -p ./tests/requirements
-        working-directory: roles/proxmox_lxc
+        run: >
+          cd roles/proxmox_lxc
+          ansible-galaxy install -r roles/proxmox_lxc/tests/requirements.yml
 
       - name: Run yamllint
         run: yamllint .
@@ -44,8 +45,9 @@ jobs:
         run: ansible-lint
 
       - name: Test syntax
-        run: ansible-playbook tests/test.yml -i tests/inventory --syntax-check
-        working-directory: roles/proxmox_lxc
+        run: >
+          cd roles/proxmox_lxc
+          ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
   ansible-test:
     name: Run ansible-test
