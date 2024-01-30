@@ -15,11 +15,3 @@ basically.
 ### [bellackn.homelab.proxmox_lxc](roles/proxmox_lxc/README.md)
 
 A role to set up Proxmox LXCs. **This was the former main content of this repository.**
-
-Use it like so:
-```yaml
----
-# [...]
-roles:
-  - bellackn.homelab.proxmox_lxc
-```
