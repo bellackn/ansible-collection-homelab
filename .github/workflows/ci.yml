@@ -30,8 +30,8 @@ jobs:
 
       - name: Install test dependencies
         run: >
-          pip3 install wheel --upgrade
-          pip3 install --upgrade ansible ansible-lint yamllint
+          pip install wheel --upgrade
+          pip install --upgrade ansible ansible-lint yamllint
 
       - name: Run yamllint
         run: yamllint .
