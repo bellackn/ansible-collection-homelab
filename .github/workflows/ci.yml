@@ -36,7 +36,7 @@ jobs:
       - name: Install Galaxy requirements
         run: |
           cd roles/proxmox_lxc
-          ansible-galaxy install -r roles/proxmox_lxc/tests/requirements.yml
+          ansible-galaxy install -r tests/requirements.yml
 
       - name: Run yamllint
         run: yamllint .
