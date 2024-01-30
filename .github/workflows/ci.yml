@@ -1,7 +1,7 @@
 ---
 name: CI
 
-on:
+"on":
   pull_request:
   push:
     branches:
@@ -12,6 +12,38 @@ jobs:
 
   lint:
     name: Run linters
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out the codebase
+        uses: actions/checkout@v2
+
+      - name: Create ansible.cfg
+        run: >
+          printf '[defaults]\nroles_path=./tests/requirements/:../\ncollections_path=./tests/requirements/:../'
+          > ansible.cfg
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+
+      - name: Install test dependencies
+        run: >
+          pip3 install wheel --upgrade
+          pip3 install --upgrade ansible ansible-lint yamllint
+
+      - name: Run yamllint
+        run: yamllint .
+
+      - name: Run ansible-lint
+        run: ansible-lint
+
+      - name: Test syntax
+        run: ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+
+  ansible-test:
+    name: Run ansible-test
     runs-on: ubuntu-latest
     steps:
       - name: Perform sanity testing with ansible-test

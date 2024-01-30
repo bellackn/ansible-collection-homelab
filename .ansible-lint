@@ -1,0 +1,6 @@
+---
+profile: shared
+
+exclude_paths:
+  - **/.cache/
+  - roles/proxmox_lxc/tests/requirements/
