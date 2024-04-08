@@ -1,0 +1,11 @@
+---
+galaxy_info:
+  role_name: hms_mqtt_publisher
+  namespace: bellackn
+  author: Nico Bellack
+  description: Deploys the hms-mqtt-publisher as systemd service
+  license: MIT
+  min_ansible_version: '2.9'
+  galaxy_tags:
+    - hms
+    - mqtt

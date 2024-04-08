@@ -170,7 +170,7 @@ MIT
 Author Information
 ------------------
 
-[Nico Bellack](mailto:blcknc@pm.me)
+[Nico Bellack](mailto:hello@bellack.dev)
 
 Acknowledgements
 ----------------

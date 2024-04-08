@@ -1,0 +1,14 @@
+[Unit]
+Description=HMS MQTT Publisher (cf. GitHub: DennisOSRM/hms-mqtt-publisher)
+After=multi-user.target
+
+[Service]
+ExecStart={{ hms_mqtt_publisher_basedir }}/hms-mqtt-publish
+WorkingDirectory={{ hms_mqtt_publisher_basedir }}
+Restart=on-failure
+Type=exec
+User={{ hms_mqtt_publisher_svc_user }}
+Group={{ hms_mqtt_publisher_svc_group }}
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,7 @@
+---
+- name: Enable and (re-)start systemd service
+  ansible.builtin.systemd:
+    name: hms-mqtt-publish
+    state: restarted
+    enabled: true
+    daemon_reload: true

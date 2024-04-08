@@ -16,6 +16,12 @@ jobs:
     with:
       ROLE_NAME: proxmox_lxc
 
+  test-role-hms-mqtt-publisher:
+    name: Test hms_mqtt_publisher role
+    uses: ./.github/workflows/test_role.yml
+    with:
+      ROLE_NAME: hms_mqtt_publisher
+
   ansible-test:
     name: Run ansible-test
     runs-on: ubuntu-latest

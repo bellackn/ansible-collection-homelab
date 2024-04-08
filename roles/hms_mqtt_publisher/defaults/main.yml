@@ -1,0 +1,34 @@
+---
+# The method to use for installing the binary
+# TODO: For now, only 'local' is supported
+hms_mqtt_publisher_install_method: local
+
+# Path to the compiled binary (used for "local" method)
+hms_mqtt_publisher_bin_path: /tmp/hms-mqtt-publish
+
+# The directory into which all necessary files will be deployed
+hms_mqtt_publisher_basedir: /opt/hms-mqtt-publisher
+
+# The user who runs the systemd service
+hms_mqtt_publisher_svc_user: root
+hms_mqtt_publisher_svc_group: root
+
+# Inverter host
+hms_mqtt_publisher_inverter_host: ""
+
+# Update interval
+hms_mqtt_publisher_update_interval: 30500
+
+# Home Assistant config
+hms_mqtt_publisher_homeassistant: {}
+#  host:
+#  port:
+#  username:
+#  password:
+
+# Simple MQTT config:
+hms_mqtt_publisher_simple: {}
+#  host:
+#  port:
+#  username:
+#  password:
