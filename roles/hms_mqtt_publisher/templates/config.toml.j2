@@ -1,0 +1,18 @@
+inverter_host = "{{ hms_mqtt_publisher_inverter_host }}"
+update_interval = {{ hms_mqtt_publisher_update_interval }}
+
+{% if hms_mqtt_publisher_homeassistant %}
+[home_assistant]
+host = "{{ hms_mqtt_publisher_homeassistant.host }}"
+port = {{ hms_mqtt_publisher_homeassistant.port | default('1883')}}
+username = "{{ hms_mqtt_publisher_homeassistant.username | default('') }}"
+password = "{{ hms_mqtt_publisher_homeassistant.password | default('') }}"
+{% endif %}
+
+{% if hms_mqtt_publisher_simple %}
+[simple_mqtt]
+host = "{{ hms_mqtt_publisher_simple.host }}"
+port = {{ hms_mqtt_publisher_simple.port | default('1883') }}
+username = "{{ hms_mqtt_publisher_simple.username | default('') }}"
+password = "{{ hms_mqtt_publisher_simple.password | default('') }}"
+{% endif %}

@@ -1,0 +1,42 @@
+---
+- name: Create base directory
+  ansible.builtin.file:
+    path: "{{ hms_mqtt_publisher_basedir }}"
+    state: directory
+    owner: "{{ hms_mqtt_publisher_svc_user }}"
+    group: "{{ hms_mqtt_publisher_svc_group }}"
+    mode: "0774"
+
+# TODO: Mirror the compiled binaries somewhere online
+- name: Copy binary to host
+  ansible.builtin.copy:
+    src: "{{ hms_mqtt_publisher_bin_path }}/{{ hms_mqtt_publisher_bin_file }}"
+    dest: "{{ hms_mqtt_publisher_basedir }}/{{ hms_mqtt_publisher_bin_file }}"
+    owner: "{{ hms_mqtt_publisher_svc_user }}"
+    group: "{{ hms_mqtt_publisher_svc_group }}"
+    mode: "0774"
+  when: hms_mqtt_publisher_install_method == "local"
+
+- name: Copy config to host
+  ansible.builtin.template:
+    src: config.toml.j2
+    dest: "{{ hms_mqtt_publisher_basedir }}/config.toml"
+    owner: "{{ hms_mqtt_publisher_svc_user }}"
+    group: "{{ hms_mqtt_publisher_svc_group }}"
+    mode: "0600"
+  register: _systemd_config
+
+- name: Install systemd service
+  ansible.builtin.template:
+    src: hms-mqtt-publish.service.j2
+    dest: /etc/systemd/system/hms-mqtt-publish.service
+    owner: "{{ hms_mqtt_publisher_svc_user }}"
+    group: "{{ hms_mqtt_publisher_svc_group }}"
+    mode: "0644"
+
+- name: Enable and start systemd service
+  ansible.builtin.systemd:
+    name: hms-mqtt-publish
+    state: "{{ 'restarted' if _systemd_config.changed else 'started' }}"
+    enabled: true
+    daemon_reload: true

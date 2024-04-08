@@ -1,0 +1,14 @@
+[Unit]
+Description=hms-mqtt-publish
+After=multi-user.target
+
+[Service]
+ExecStart={{ hms_mqtt_publisher_basedir }}/{{ hms_mqtt_publisher_bin_file }}
+WorkingDirectory={{ hms_mqtt_publisher_basedir }}
+Restart=on-failure
+Type=exec
+User={{ hms_mqtt_publisher_svc_user }}
+Group={{ hms_mqtt_publisher_svc_group }}
+
+[Install]
+WantedBy=multi-user.target
