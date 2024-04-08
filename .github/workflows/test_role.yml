@@ -37,10 +37,10 @@ jobs:
           ansible-galaxy collection install -r tests/requirements.yml -p /tmp
 
       - name: Run yamllint
-        run: yamllint .
+        run: yamllint roles/${{ inputs.ROLE_NAME }}
 
       - name: Run ansible-lint
-        run: ansible-lint
+        run: ansible-lint roles/${{ inputs.ROLE_NAME }}
 
       - name: Test syntax
         run: |
