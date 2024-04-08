@@ -15,6 +15,7 @@
     owner: "{{ hms_mqtt_publisher_svc_user }}"
     group: "{{ hms_mqtt_publisher_svc_group }}"
     mode: "0774"
+  register: _binary
   when: hms_mqtt_publisher_install_method == "local"
 
 - name: Copy config to host
@@ -34,9 +35,16 @@
     group: "{{ hms_mqtt_publisher_svc_group }}"
     mode: "0644"
 
-- name: Enable and start systemd service
+- name: Set helper fact for systemd service restart
+  ansible.builtin.set_fact:
+    _svc_needs_restart: true
+  when:
+    - _binary.changed
+    - _systemd_config.changed
+
+- name: Enable and (re-)start systemd service
   ansible.builtin.systemd:
     name: hms-mqtt-publish
-    state: "{{ 'restarted' if _systemd_config.changed else 'started' }}"
+    state: "{{ 'restarted' if _svc_needs_restart is defined else 'started' }}"
     enabled: true
     daemon_reload: true
