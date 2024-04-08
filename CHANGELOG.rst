@@ -5,6 +5,14 @@ Bellackn Homelab Release Notes
 .. contents:: Topics
 
 
+v5.1.0
+======
+
+Release Summary
+---------------
+
+Add hms_mqtt_publisher role
+
 v5.0.1
 ======
 

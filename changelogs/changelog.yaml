@@ -18,3 +18,9 @@ releases:
     fragments:
     - v5.0.1_dummy.yaml
     release_date: '2024-01-30'
+  5.1.0:
+    changes:
+      release_summary: Add hms_mqtt_publisher role
+    fragments:
+    - v5.1.0_summary.yaml
+    release_date: '2024-04-08'
