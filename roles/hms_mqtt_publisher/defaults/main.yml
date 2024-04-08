@@ -4,8 +4,7 @@
 hms_mqtt_publisher_install_method: local
 
 # Path to the compiled binary (used for "local" method)
-hms_mqtt_publisher_bin_path: /tmp
-hms_mqtt_publisher_bin_file: "hms-mqtt-publish__{{ ansible_machine }}"
+hms_mqtt_publisher_bin_path: /tmp/hms-mqtt-publish
 
 # The directory into which all necessary files will be deployed
 hms_mqtt_publisher_basedir: /opt/hms-mqtt-publisher

@@ -7,11 +7,11 @@
     group: "{{ hms_mqtt_publisher_svc_group }}"
     mode: "0774"
 
-# TODO: Mirror the compiled binaries somewhere online
+# TODO: Mirror the compiled binaries somewhere online/add 'url/mirror' method
 - name: Copy binary to host
   ansible.builtin.copy:
-    src: "{{ hms_mqtt_publisher_bin_path }}/{{ hms_mqtt_publisher_bin_file }}"
-    dest: "{{ hms_mqtt_publisher_basedir }}/{{ hms_mqtt_publisher_bin_file }}"
+    src: "{{ hms_mqtt_publisher_bin_path }}"
+    dest: "{{ hms_mqtt_publisher_basedir }}/hms-mqtt-publish"
     owner: "{{ hms_mqtt_publisher_svc_user }}"
     group: "{{ hms_mqtt_publisher_svc_group }}"
     mode: "0774"
