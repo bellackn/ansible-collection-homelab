@@ -12,10 +12,12 @@ basically.
 
 ## Content
 
-### [bellackn.homelab.proxmox_lxc](roles/proxmox_lxc/README.md)
+### Roles
 
-A role to set up Proxmox LXCs. **This was the former main content of this repository.**
+#### [proxmox_lxc](roles/proxmox_lxc/README.md)
 
-### [bellack.hms_mqtt_publisher](roles/hms_mqtt_publisher/README.md)
+Sets up Proxmox LXCs. **This was the former main content of this repository.**
 
-A role to deploy [hms-mqtt-publisher](https://github.com/DennisOSRM/hms-mqtt-publisher) as a systemd service.
+#### [hms_mqtt_publisher](roles/hms_mqtt_publisher/README.md)
+
+Deploys [hms-mqtt-publisher](https://github.com/DennisOSRM/hms-mqtt-publisher) as a systemd service.
