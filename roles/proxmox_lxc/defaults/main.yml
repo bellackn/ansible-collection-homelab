@@ -3,6 +3,8 @@
 # proxmox_lxc_api_user:
 # proxmox_lxc_api_password:
 
+proxmox_lxc_no_log: true
+
 proxmox_lxc_api_node: "{{ proxmox_lxc_api_host }}"
 
 proxmox_lxc_containers_present: []

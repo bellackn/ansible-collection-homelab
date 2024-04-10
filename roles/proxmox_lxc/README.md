@@ -56,6 +56,11 @@ individually, like in the example playbook.
 
 ### Optional
 
+    proxmox_lxc_no_log: true
+
+By default, nothing will be logged during LXC creation. Sometimes, you might
+need the logs for debugging though. Set this to `false` then.
+
     proxmox_lxc_containers_present: []
     proxmox_lxc_containers_absent: []
 

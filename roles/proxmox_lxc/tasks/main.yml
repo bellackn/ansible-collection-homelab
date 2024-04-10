@@ -2,7 +2,7 @@
 - name: Create LXC containers
   ansible.builtin.include_tasks: create_lxc.yml
   loop: "{{ proxmox_lxc_containers_present }}"
-  no_log: true  # Prevents leaking the password, cf. #3
+  no_log: "{{ proxmox_lxc_no_log }}"  # Prevents leaking the password, cf. #3
 
 - name: Delete LXC containers
   ansible.builtin.include_tasks: delete_lxc.yml
