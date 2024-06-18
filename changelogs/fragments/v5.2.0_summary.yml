@@ -2,4 +2,3 @@
 release_summary: |-
   Remove the `proxmox_default_behavior` directive since it was removed from the upstream community collection.
   Also add the `proxmox_lxc_no_log` variable to control whether logs will be printed while creating/deleting LXCs.
-
