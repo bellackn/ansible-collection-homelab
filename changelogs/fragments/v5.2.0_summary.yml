@@ -1,0 +1,4 @@
+---
+release_summary: |-
+  Remove the `proxmox_default_behavior` directive since it was removed from the upstream community collection
+
