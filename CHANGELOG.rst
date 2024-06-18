@@ -4,6 +4,20 @@ Bellackn Homelab Release Notes
 
 .. contents:: Topics
 
+v5.2.0
+======
+
+Release Summary
+---------------
+
+Remove the `proxmox_default_behavior` directive since it was removed from the upstream community collection.
+Also add the `proxmox_lxc_no_log` variable to control whether logs will be printed while creating/deleting LXCs.
+
+Minor Changes
+-------------
+
+- Make `no_log` configurable
+- Remove `proxmox_default_behavior` since this was removed from the community module
 
 v5.1.0
 ======

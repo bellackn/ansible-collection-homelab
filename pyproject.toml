@@ -5,6 +5,7 @@ package-mode = false
 python = "^3.12"
 
 [tool.poetry.group.dev.dependencies]
+ansible = "^10.1.0"
 antsibull-changelog = "^0.28.0"
 
 [build-system]

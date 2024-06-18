@@ -24,3 +24,19 @@ releases:
     fragments:
     - v5.1.0_summary.yaml
     release_date: '2024-04-08'
+  5.2.0:
+    changes:
+      minor_changes:
+      - Make `no_log` configurable
+      - Remove `proxmox_default_behavior` since this was removed from the community
+        module
+      release_summary: 'Remove the `proxmox_default_behavior` directive since it was
+        removed from the upstream community collection.
+
+        Also add the `proxmox_lxc_no_log` variable to control whether logs will be
+        printed while creating/deleting LXCs.'
+    fragments:
+    - 12-proxmox-default-behavior.yml
+    - no_log_configurable.yml
+    - v5.2.0_summary.yml
+    release_date: '2024-06-18'
