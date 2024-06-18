@@ -30,7 +30,6 @@
     password: "{{ item.password | default(proxmox_lxc_password) }}"
     netif: "{{ item.netif | default(omit) }}"
     pool: "{{ item.pool | default(proxmox_lxc_pool | ternary(proxmox_lxc_pool, omit)) }}"
-    proxmox_default_behavior: no_defaults
     pubkey: "{{ item.pubkey | default(proxmox_lxc_pubkey) }}"
     searchdomain: "{{ item.searchdomain | default(proxmox_lxc_searchdomain) }}"
     state: present
@@ -54,7 +53,6 @@
     api_user: "{{ item.api_user | default(proxmox_lxc_api_user) }}"
     hostname: "{{ item.hostname }}"
     node: "{{ item.node | default(proxmox_lxc_node) }}"
-    proxmox_default_behavior: no_defaults
     state: started
   register: proxmox_lxc_started
 

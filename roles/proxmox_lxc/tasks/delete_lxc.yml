@@ -6,7 +6,6 @@
     api_user: "{{ item.api_user | default(proxmox_lxc_api_user) }}"
     hostname: "{{ item.hostname }}"
     node: "{{ item.node | default(proxmox_lxc_node) }}"
-    proxmox_default_behavior: no_defaults
     state: stopped
   register: lxc_stop
   ignore_errors: true
@@ -18,6 +17,5 @@
     api_user: "{{ item.api_user | default(proxmox_lxc_api_user) }}"
     hostname: "{{ item.hostname }}"
     node: "{{ item.node | default(proxmox_lxc_node) }}"
-    proxmox_default_behavior: no_defaults
     state: absent
   when: "'Hostname doesn\\'t exist' not in lxc_stop.msg"
