@@ -62,7 +62,7 @@
   when: proxmox_lxc_started.changed
 
 - name: Ping outside  # noqa no-handler
-  ansible.builtin.command: "lxc-attach -n {{ proxmox_lxc_started.msg[3:6] }} -- ping {{ proxmox_lxc_ping_server }} -c 2"
+  ansible.builtin.command: "lxc-attach -n {{ proxmox_lxc_started.vmid }} -- ping {{ proxmox_lxc_ping_server }} -c 2"
   delegate_to: "{{ proxmox_lxc_api_node }}"
   changed_when: false
   when:
