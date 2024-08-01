@@ -1,0 +1,3 @@
+---
+bufixes:
+  - The "Ping outside"-task in the `proxmox_lxc` role now works with VMIDs > 2 digits (https://github.com/bellackn/ansible-collection-homelab/issues/17)
