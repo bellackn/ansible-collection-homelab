@@ -4,6 +4,20 @@ Bellackn Homelab Release Notes
 
 .. contents:: Topics
 
+
+v5.2.1
+======
+
+Release Summary
+---------------
+
+Fixed a bug in the `proxmox_lxc` role.
+
+Bugfixes
+--------
+
+- The "Ping outside"-task in the `proxmox_lxc` role now works with VMIDs > 2 digits (https://github.com/bellackn/ansible-collection-homelab/issues/17)
+
 v5.2.0
 ======
 

@@ -40,3 +40,13 @@ releases:
     - no_log_configurable.yml
     - v5.2.0_summary.yml
     release_date: '2024-06-18'
+  5.2.1:
+    changes:
+      bugfixes:
+      - The "Ping outside"-task in the `proxmox_lxc` role now works with VMIDs > 2
+        digits (https://github.com/bellackn/ansible-collection-homelab/issues/17)
+      release_summary: Fixed a bug in the `proxmox_lxc` role.
+    fragments:
+    - 13-ping-outside-vmid.yml
+    - v5.2.1_summary.yml
+    release_date: '2024-08-01'
