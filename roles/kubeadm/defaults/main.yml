@@ -1,1 +1,3 @@
 ---
+# The version of cri-dockerd to install
+kubeadm_cri_dockerd_version: 0.3.16
