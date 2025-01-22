@@ -1,0 +1,5 @@
+---
+- name: Test role syntax
+  hosts: test
+  roles:
+    - kubeadm

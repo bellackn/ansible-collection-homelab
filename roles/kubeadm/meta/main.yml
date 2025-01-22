@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  role_name: kubeadm
+  namespace: bellackn
+  author: Nico Bellack
+  description: Sets up a K8s cluster using kubeadm
+  license: MIT
+  min_ansible_version: "2.9"
+  galaxy_tags:
+    - kubernetes
+    - k8s
+    - kubeadm
+
+dependencies:
+  - role: geerlingguy.swap
+    vars:
+      swap_file_state: absent
