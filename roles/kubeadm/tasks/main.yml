@@ -6,8 +6,9 @@
   ansible.builtin.include_tasks: cri-dockerd.yml
 
 - name: Install required packages
-  ansible.builtin.package:
+  ansible.builtin.apt:
     name: "{{ kubeadm_req_packages }}"
+    state: present
   become: true
 
 - name: Download Kubernetes GPG key
@@ -22,3 +23,31 @@
     executable: /bin/bash
   become: true
   changed_when: false
+
+- name: Add Kubernetes apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v{{ kubeadm_k8s_version }}/deb/ /"
+    state: present
+
+- name: Install Kubernetes tools
+  ansible.builtin.apt:
+    update_cache: true
+    name:
+      - kubelet
+      - kubeadm
+      - kubectl
+
+- name: Prevent updates for Kubernetes tools
+  ansible.builtin.dpkg_selections:
+    name: "{{ item }}"
+    selection: hold
+  loop:
+    - kubelet
+    - kubeadm
+    - kubectl
+
+- name: Start kubelet
+  ansible.builtin.systemd_service:
+    name: kubelet
+    state: started
+    enabled: true
