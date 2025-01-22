@@ -1,0 +1,6 @@
+---
+kubeadm_req_packages:
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gpg

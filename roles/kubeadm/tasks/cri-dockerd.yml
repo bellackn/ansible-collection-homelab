@@ -23,3 +23,4 @@
 - name: Install .deb package
   ansible.builtin.apt:
     deb: "/tmp/{{ _release_filename }}"
+  become: true

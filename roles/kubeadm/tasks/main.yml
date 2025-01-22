@@ -1,3 +1,24 @@
 ---
+- name: Include variables
+  ansible.builtin.include_vars: "{{ ansible_distribution | lower }}.yml"
+
 - name: Install cri-dockerd
   ansible.builtin.include_tasks: cri-dockerd.yml
+
+- name: Install required packages
+  ansible.builtin.package:
+    name: "{{ kubeadm_req_packages }}"
+  become: true
+
+- name: Download Kubernetes GPG key
+  ansible.builtin.get_url:
+    url: "https://pkgs.k8s.io/core:/stable:/v{{ kubeadm_k8s_version }}/deb/Release.key"
+    dest: /tmp/k8s-release.key
+    mode: "0644"
+
+- name: Import Kubernetes GPG key
+  ansible.builtin.shell:
+    cmd: set -o pipefail && cat /tmp/k8s-release.key | gpg --batch --yes --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+    executable: /bin/bash
+  become: true
+  changed_when: false
