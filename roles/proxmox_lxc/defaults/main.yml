@@ -15,7 +15,7 @@ proxmox_lxc_cores: 1
 proxmox_lxc_cpus: 1
 proxmox_lxc_cpuunits: 1000
 proxmox_lxc_description: Created with Ansible
-proxmox_lxc_disk: 3
+proxmox_lxc_disk: local-lvm:3
 proxmox_lxc_features: []
 proxmox_lxc_force: false
 proxmox_lxc_hookscript: ""
@@ -28,7 +28,6 @@ proxmox_lxc_password: ""  # Minimum length is 5
 proxmox_lxc_pool: ""
 proxmox_lxc_pubkey: ""
 proxmox_lxc_searchdomain: ""
-proxmox_lxc_storage: local
 proxmox_lxc_swap: 0
 proxmox_lxc_timeout: 30
 proxmox_lxc_unprivileged: false

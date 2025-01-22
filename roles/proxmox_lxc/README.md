@@ -1,32 +1,29 @@
-bellackn.proxmox_lxc
-===============
+# bellackn.proxmox_lxc
 
 > This role used to be called bellackn.px_lxc and was renamed as part of [#1](https://github.com/bellackn/ansible-role-proxmox-lxc/issues/1).
 
 This role is a convenient wrapper for the Ansible Proxmox community module and can be used to create or delete LXCs on a
 Proxmox instance.
 
-How to Use
-----------
+## How to Use
 
 The role bases upon the `proxmox_lxc_containers_present` and `proxmox_lxc_containers_absent` variables to
-spawn or delete LXCs. You can put a list of LXCs into these variables; the list items use the same keys like the 
+spawn or delete LXCs. You can put a list of LXCs into these variables; the list items use the same keys like the
 [Proxmox community module][1]. There are a lot of sane default values for most of the possible settings, but you can
 override each of them, either on a global level by overriding the default `proxmox_lxc_*` variable, or for a specific
-container by passing the variable into `proxmox_lxc_containers_present` - just check the example playbook (the `cpus` 
+container by passing the variable into `proxmox_lxc_containers_present` - just check the example playbook (the `cpus`
 part) and you'll get the idea.
 
-Requirements
-------------
+## Requirements
 
 You need to have the following installed on your controlhost:
-* Ansible Role `geerlingguy.pip`
-  * Dependency to ensure that `pip` is present to install the required `proxmoxer` package
-* Ansible Collection `community.general`
-  * Contains the `community.general.proxmox` module, the centerpiece of this role
 
-Role Variables
---------------
+- Ansible Role `geerlingguy.pip`
+  - Dependency to ensure that `pip` is present to install the required `proxmoxer` package
+- Ansible Collection `community.general`
+  - Contains the `community.general.proxmox` module, the centerpiece of this role
+
+## Role Variables
 
 ### Mandatory
 
@@ -64,7 +61,7 @@ need the logs for debugging though. Set this to `false` then.
     proxmox_lxc_containers_present: []
     proxmox_lxc_containers_absent: []
 
-Takes a list of LXCs that you either want to **create** or to **delete**. See the [Proxmox community module][1] for all 
+Takes a list of LXCs that you either want to **create** or to **delete**. See the [Proxmox community module][1] for all
 possible variables and check the example playbook. For the absent container list, passing the hostname is enough.
 
 (Although these are optional, not defining any of them makes the role pretty much pointless.)
@@ -84,7 +81,7 @@ that it has within the Proxmox cluster (see [#4](https://github.com/bellackn/ans
     proxmox_lxc_cpus: 1
     proxmox_lxc_cpuunits: 1000
     proxmox_lxc_description: Created with Ansible
-    proxmox_lxc_disk: 3
+    proxmox_lxc_disk: local-lvm:3
     proxmox_lxc_features: []
     proxmox_lxc_force: no
     proxmox_lxc_hookscript: ""
@@ -95,7 +92,6 @@ that it has within the Proxmox cluster (see [#4](https://github.com/bellackn/ans
     proxmox_lxc_pool: ""
     proxmox_lxc_pubkey: ""
     proxmox_lxc_searchdomain: ""
-    proxmox_lxc_storage: local
     proxmox_lxc_swap: 0
     proxmox_lxc_timeout: 30
     proxmox_lxc_unprivileged: no
@@ -125,8 +121,7 @@ Seconds to wait for the LXC to be started.
 You can specify the VMID for the container that you want to create. If you don't set this, the next available ID will
 be automatically picked. If the specified ID is already taken, the play will fail.
 
-Example Playbook
-----------------
+## Example Playbook
 
 This playbook will create two Ubuntu LXCs and delete them afterwards.
 
@@ -139,7 +134,6 @@ This playbook will create two Ubuntu LXCs and delete them afterwards.
         proxmox_lxc_api_host: proxmox
         proxmox_lxc_api_user: root@pam
         proxmox_lxc_api_password: s3cr3t!
-        proxmox_lxc_storage: local-lvm
         proxmox_lxc_cpus: 2  # Specify the value for all LXCs created with this role
 
         proxmox_lxc_containers_present:
@@ -153,32 +147,28 @@ This playbook will create two Ubuntu LXCs and delete them afterwards.
             cpus: 2  # Use a value specifically for this LXC
             ostemplate: local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz
             password: baaar
-    
+
         proxmox_lxc_containers_absent:
           - hostname: test1
           - hostname: test2
-    
+
       roles:
         - bellackn.homelab.proxmox_lxc
 
-Known Limitations
------------------
+## Known Limitations
 
-* It's currently not possible to authenticate with Proxmox using API tokens, you have to use user/password.
-* Deleting containers must happen by specifying its hostname, deleting by VMID is not yet possible.
+- It's not possible to authenticate with Proxmox using API tokens, you have to use user/password.
+- Deleting containers must happen by specifying its hostname, deleting by VMID is not possible.
 
-License
--------
+## License
 
 MIT
 
-Author Information
-------------------
+## Author Information
 
 [Nico Bellack](mailto:hello@bellack.dev)
 
-Acknowledgements
-----------------
+## Acknowledgements
 
 This role was heavily inspired by the [ovv.lxc](https://github.com/ovv/ansible-role-proxmox-lxc) role. Thank you!
 
