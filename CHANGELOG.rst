@@ -4,6 +4,30 @@ Bellackn Homelab Release Notes
 
 .. contents:: Topics
 
+v6.0.0
+======
+
+Release Summary
+---------------
+
+The `storage` parameter had to be removed from the `proxmox_lxc` role because
+it has become mutually exclusive with `disk`.
+
+Breaking Changes / Porting Guide
+--------------------------------
+
+- The `proxmox_lxc_storage` parameter was removed from the `proxmox_lxc` role.
+
+  Old way:
+  ```yaml
+  proxmox_lxc_disk: 3
+  proxmox_lxc_storage: local
+  ```
+
+  New way:
+  ```yaml
+  proxmox_lxc_disk: local:3
+  ```
 
 v5.2.1
 ======

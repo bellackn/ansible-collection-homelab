@@ -50,3 +50,37 @@ releases:
     - 13-ping-outside-vmid.yml
     - v5.2.1_summary.yml
     release_date: '2024-08-01'
+  6.0.0:
+    changes:
+      breaking_changes:
+      - 'The `proxmox_lxc_storage` parameter was removed from the `proxmox_lxc` role.
+
+
+        Old way:
+
+        ```yaml
+
+        proxmox_lxc_disk: 3
+
+        proxmox_lxc_storage: local
+
+        ```
+
+
+        New way:
+
+        ```yaml
+
+        proxmox_lxc_disk: local:3
+
+        ```
+
+        '
+      release_summary: 'The `storage` parameter had to be removed from the `proxmox_lxc`
+        role because
+
+        it has become mutually exclusive with `disk`.'
+    fragments:
+    - 14-storage-vs-disk.yml
+    - v6.0.0_summary.yml
+    release_date: '2025-01-22'

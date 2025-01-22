@@ -1,0 +1,4 @@
+---
+release_summary: |-
+  The `storage` parameter had to be removed from the `proxmox_lxc` role because
+  it has become mutually exclusive with `disk`.
