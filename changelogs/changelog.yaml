@@ -58,7 +58,7 @@ releases:
 
         Old way:
 
-        ```yaml
+        ```
 
         proxmox_lxc_disk: 3
 
@@ -69,7 +69,7 @@ releases:
 
         New way:
 
-        ```yaml
+        ```
 
         proxmox_lxc_disk: local:3
 
