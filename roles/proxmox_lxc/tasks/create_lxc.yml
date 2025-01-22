@@ -33,7 +33,6 @@
     pubkey: "{{ item.pubkey | default(proxmox_lxc_pubkey) }}"
     searchdomain: "{{ item.searchdomain | default(proxmox_lxc_searchdomain) }}"
     state: present
-    storage: "{{ item.storage | default(proxmox_lxc_storage) }}"
     swap: "{{ item.swap | default(proxmox_lxc_swap) }}"
     timeout: "{{ item.timeout | default(proxmox_lxc_timeout) }}"
     validate_certs: "{{ item.validate_certs | default(proxmox_lxc_validate_certs) }}"
