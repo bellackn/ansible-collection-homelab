@@ -1,6 +1,7 @@
 # bellackn.kubeadm
 
-This role does [...]
+This role installs kubeadm and other necessary Kubernetes tools. It uses
+Docker-Engine as the container runtime.
 
 ## How to Use
 
@@ -14,7 +15,11 @@ See [defaults/main.yml](defaults/main.yml).
 
 ```yaml
 ---
-[...]
+- name: Install kubeadm
+  hosts: k8s
+  gather_facts: true
+  roles:
+    - bellackn.homelab.kubeadm
 ```
 
 ## License

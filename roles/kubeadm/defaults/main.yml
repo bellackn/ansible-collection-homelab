@@ -3,4 +3,4 @@
 kubeadm_cri_dockerd_version: 0.3.16
 
 # The Kubernetes version you want to use
-kubeadm_k8s_version: 1.32
+kubeadm_k8s_version: 1.32.1
