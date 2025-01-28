@@ -98,16 +98,12 @@
   loop: "{{ ['root'] | union(kubeadm_additional_users) }}"
   when: inventory_hostname == kubeadm_k8s_head_node
 
-- name: Enable bash-completion for kubectl
-  ansible.builtin.lineinfile:
-    line: source <(kubectl completion bash)
-    dest: "{{ '/root' if item == 'root' else '/home/' + item }}/.bashrc"
-    state: present
-  loop: "{{ ['root'] | union(kubeadm_additional_users) }}"
-
-- name: Enable `k` alias for kubectl
-  ansible.builtin.lineinfile:
-    line: alias k=kubectl
+- name: Enable bash-completion and `k` alias for kubectl
+  ansible.builtin.blockinfile:
+    block: |
+      source <(kubectl completion bash)
+      alias k=kubectl
+      complete -F __start_kubectl k
     dest: "{{ '/root' if item == 'root' else '/home/' + item }}/.bashrc"
     state: present
   loop: "{{ ['root'] | union(kubeadm_additional_users) }}"
