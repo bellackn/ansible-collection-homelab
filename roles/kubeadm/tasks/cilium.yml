@@ -1,0 +1,38 @@
+---
+- name: Compose file name from distro
+  ansible.builtin.set_fact:
+    _release_filename: "helm-v{{ kubeadm_helm_version }}-linux-{{ _architecture }}.tar.gz"
+
+- name: Download release file
+  ansible.builtin.get_url:
+    url: "https://get.helm.sh//{{ _release_filename }}"
+    checksum: "{{ kubeadm_helm_checksum }}"
+    dest: "/tmp/{{ _release_filename }}"
+    mode: "0644"
+
+- name: Unzip Helm archive
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ _release_filename }}"
+    remote_src: true
+    dest: /tmp/
+
+- name: Install Helm binary
+  ansible.builtin.copy:
+    src: /tmp/linux-{{ _architecture }}/helm
+    remote_src: true
+    dest: /usr/bin/helm
+    mode: "0755"
+
+- name: Add Cilium Helm chart
+  kubernetes.core.helm_repository:
+    name: cilium
+    repo_url: https://helm.cilium.io
+
+- name: Update Helm repo cache
+  ansible.builtin.command: helm repo update
+
+- name: Save Cilium template to file
+  ansible.builtin.shell:
+    cmd: >
+      helm template cilium cilium/cilium --version {{ kubeadm_cilium_version }}
+      --namespace kube-system > {{ ansible_env.HOME }}/cilium.yml

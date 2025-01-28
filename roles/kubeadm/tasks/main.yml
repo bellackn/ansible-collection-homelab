@@ -2,14 +2,43 @@
 - name: Include variables
   ansible.builtin.include_vars: "{{ ansible_distribution | lower }}.yml"
 
+- name: Map CPU architecture facts to their correct values
+  ansible.builtin.set_fact:
+    _architecture: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
+
+- name: Install required system packages
+  ansible.builtin.apt:
+    name: "{{ _kubeadm_req_packages }}"
+    state: present
+
 - name: Install cri-dockerd
   ansible.builtin.include_tasks: cri-dockerd.yml
 
-- name: Install required packages
-  ansible.builtin.apt:
-    name: "{{ kubeadm_req_packages }}"
+- name: Enable required kernel modules
+  community.general.modprobe:
+    name: "{{ item }}"
     state: present
-  become: true
+    persistent: present
+  loop:
+    - br_netfilter
+    - overlay
+
+- name: Update kernel networking to allow K8s traffic
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+  loop:
+    - {name: net.bridge.bridge-nf-call-ip6tables, value: 1}
+    - {name: net.bridge.bridge-nf-call-iptables, value: 1}
+    - {name: net.ipv4.ip_forward, value: 1}
+
+- name: Add all hosts to /etc/hosts
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: "{{ hostvars[item].ansible_facts.default_ipv4.address }} {{ item }}"
+    state: present
+  loop: "{{ ansible_play_hosts }}"
 
 - name: Determine major Kubernetes version
   ansible.builtin.set_fact:
@@ -25,7 +54,6 @@
   ansible.builtin.shell:
     cmd: set -o pipefail && cat /tmp/k8s-release.key | gpg --batch --yes --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     executable: /bin/bash
-  become: true
   changed_when: false
 
 - name: Add Kubernetes apt repository
@@ -50,6 +78,33 @@
     - kubeadm
     - kubectl
 
+- name: Create .kube directory
+  ansible.builtin.file:
+    path: /home/{{ item }}/.kube
+    state: directory
+    mode: "0755"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+  loop: "{{ ['root'] | union(kubeadm_additional_users) }}"
+
+- name: Make K8s admin config available for users on the head node
+  ansible.builtin.copy:
+    src: /etc/kubernetes/admin.conf
+    remote_src: true
+    dest: /home/{{ item }}/.kube/config
+    mode: "0600"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+  loop: "{{ ['root'] | union(kubeadm_additional_users) }}"
+  when: inventory_hostname == kubeadm_k8s_head_node
+
+- name: Enable bash-completion for kubectl
+  ansible.builtin.lineinfile:
+    line: source <(kubectl completion bash)
+    dest: "{{ '/root' if item == 'root' else '/home/' + item }}/.bashrc"
+    state: present
+  loop: "{{ ['root'] | union(kubeadm_additional_users) }}"
+
 - name: Start kubelet
   ansible.builtin.systemd_service:
     name: kubelet
@@ -61,3 +116,17 @@
     src: kubeadm-config.yml.j2
     dest: "{{ ansible_env.HOME }}/kubeadm-config.yml"
     mode: '0644'
+  when: inventory_hostname == kubeadm_k8s_head_node
+
+- name: Set up Cilium
+  ansible.builtin.import_tasks: cilium.yml
+  when: inventory_hostname == kubeadm_k8s_head_node
+
+- name: Finish
+  ansible.builtin.debug:
+    msg:
+      - The K8s hosts are now ready.
+      - You should now SSH into {{ kubeadm_k8s_head_node }} and run `kubeadm init`.
+      - Follow the instructions there.
+      - To install Cilium, run `kubectl apply -f ~/cilium.yml`.
+  run_once: true
