@@ -105,6 +105,13 @@
     state: present
   loop: "{{ ['root'] | union(kubeadm_additional_users) }}"
 
+- name: Enable `k` alias for kubectl
+  ansible.builtin.lineinfile:
+    line: alias k=kubectl
+    dest: "{{ '/root' if item == 'root' else '/home/' + item }}/.bashrc"
+    state: present
+  loop: "{{ ['root'] | union(kubeadm_additional_users) }}"
+
 - name: Start kubelet
   ansible.builtin.systemd_service:
     name: kubelet
