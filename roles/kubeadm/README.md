@@ -31,6 +31,8 @@ k8s-worker2
 - name: Install kubeadm
   hosts: k8s
   gather_facts: true
+  vars:
+    kubeadm_k8s_head_node: k8s-head
   roles:
     - bellackn.homelab.kubeadm
 ```
