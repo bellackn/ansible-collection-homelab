@@ -12,9 +12,6 @@ galaxy_info:
     - kubeadm
 
 dependencies:
-  - role: geerlingguy.swap
-    vars:
-      swap_file_state: absent
   - role: geerlingguy.pip
     vars:
       pip_install_packages:

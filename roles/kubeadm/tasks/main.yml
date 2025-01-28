@@ -2,6 +2,16 @@
 - name: Include variables
   ansible.builtin.include_vars: "{{ ansible_distribution | lower }}.yml"
 
+- name: Disable swap
+  ansible.builtin.command: swapoff -a
+  changed_when: false
+
+- name: Delete swap entry from fstab
+  ansible.posix.mount:
+    path: none
+    fstype: swap
+    state: absent
+
 - name: Map CPU architecture facts to their correct values
   ansible.builtin.set_fact:
     _architecture: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
@@ -129,7 +139,7 @@
   ansible.builtin.debug:
     msg:
       - The K8s hosts are now ready.
-      - You should now SSH into {{ kubeadm_k8s_head_node }} and run `kubeadm init`.
-      - Follow the instructions there.
+      - You can now SSH into {{ kubeadm_k8s_head_node }} and run `kubeadm init`.
+      - Follow the instructions from there.
       - To install Cilium, run `kubectl apply -f ~/cilium.yml`.
   run_once: true
