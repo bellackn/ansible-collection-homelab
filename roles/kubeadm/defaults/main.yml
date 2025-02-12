@@ -9,7 +9,7 @@ kubeadm_k8s_version: 1.32.1
 kubeadm_k8s_head_node: ""
 
 # The pod subnet
-kubeadm_k8s_pod_subnet: 192.168.0.0/16
+kubeadm_k8s_pod_subnet: 10.0.0.0/16
 
 # The version of Cilium to use
 kubeadm_cilium_version: 1.16.6

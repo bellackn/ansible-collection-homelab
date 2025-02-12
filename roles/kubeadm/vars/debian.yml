@@ -5,3 +5,5 @@ _kubeadm_req_packages:
   - ca-certificates
   - curl
   - gpg
+  - jq
+  - strace
