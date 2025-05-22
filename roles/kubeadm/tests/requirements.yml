@@ -1,3 +1,5 @@
 ---
-roles: []
 collections: []
+
+roles:
+  - name: geerlingguy.pip

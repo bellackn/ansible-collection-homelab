@@ -60,13 +60,13 @@
     dest: /tmp/k8s-release.key
     mode: "0644"
 
-- name: Import Kubernetes GPG key
+- name: Import Kubernetes GPG key  # noqa yaml[line-length]
   ansible.builtin.shell:
     cmd: set -o pipefail && cat /tmp/k8s-release.key | gpg --batch --yes --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     executable: /bin/bash
   changed_when: false
 
-- name: Add Kubernetes apt repository
+- name: Add Kubernetes apt repository  # noqa yaml[line-length]
   ansible.builtin.apt_repository:
     repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v{{ _k8s_major_version }}/deb/ /"
     state: present

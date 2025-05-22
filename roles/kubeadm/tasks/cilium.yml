@@ -28,10 +28,10 @@
     name: cilium
     repo_url: https://helm.cilium.io
 
-- name: Update Helm repo cache
+- name: Update Helm repo cache  # noqa no-changed-when
   ansible.builtin.command: helm repo update
 
-- name: Save Cilium template to file
+- name: Save Cilium template to file  # noqa no-changed-when
   ansible.builtin.shell:
     cmd: >
       helm template cilium cilium/cilium --version {{ kubeadm_cilium_version }}
