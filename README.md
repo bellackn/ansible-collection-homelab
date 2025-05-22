@@ -2,9 +2,7 @@
 
 # bellackn.homelab
 
-This is an Ansible collection that holds various roles that are handy for a homelab infrastructure setup. Currently
-it just consists of good old Ansible roles. I just had to convert them into a collection because RedHat forced me, 
-basically.
+This is an Ansible collection that holds various roles that are handy for my homelab infrastructure setup.
 
 ## How to Install
 
@@ -14,10 +12,14 @@ basically.
 
 ### Roles
 
-#### [proxmox_lxc](roles/proxmox_lxc/README.md)
-
-Sets up Proxmox LXCs. **This was the former main content of this repository.**
-
 #### [hms_mqtt_publisher](roles/hms_mqtt_publisher/README.md)
 
 Deploys [hms-mqtt-publisher](https://github.com/DennisOSRM/hms-mqtt-publisher) as a systemd service.
+
+#### [kubeadm](roles/kubeadm/README.md)
+
+Sets up Kubernetes clusters with kubeadm.
+
+#### [proxmox_lxc](roles/proxmox_lxc/README.md)
+
+Sets up Proxmox LXCs.
