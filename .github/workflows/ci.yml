@@ -21,6 +21,12 @@ jobs:
     uses: ./.github/workflows/test_role.yml
     with:
       ROLE_NAME: hms_mqtt_publisher
+  
+  test-role-kubeadm:
+    name: Test kubeadm role
+    uses: ./.github/workflows/test_role.yml
+    with:
+      ROLE_NAME: kubeadm
 
   ansible-test:
     name: Run ansible-test
