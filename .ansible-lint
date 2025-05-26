@@ -1,5 +1,5 @@
 ---
-profile: shared
+profile: production
 
 exclude_paths:
   - .cache/

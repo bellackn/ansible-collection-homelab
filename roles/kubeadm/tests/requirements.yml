@@ -3,3 +3,4 @@ collections: []
 
 roles:
   - name: geerlingguy.pip
+    version: 3.1.0
