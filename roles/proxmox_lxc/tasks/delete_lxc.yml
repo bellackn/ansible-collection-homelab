@@ -18,4 +18,6 @@
     hostname: "{{ item.hostname }}"
     node: "{{ item.node | default(proxmox_lxc_node) }}"
     state: absent
-  when: "'Hostname doesn\\'t exist' not in lxc_stop.msg"
+  when:
+    - "'Hostname doesn\\'t exist' not in lxc_stop.msg"
+    - "'No VM with name' not in lxc_stop.msg"

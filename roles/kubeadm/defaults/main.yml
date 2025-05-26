@@ -1,0 +1,24 @@
+---
+# The version of cri-dockerd to install
+kubeadm_cri_dockerd_version: 0.3.16
+
+# The Kubernetes version you want to use
+kubeadm_k8s_version: 1.32.1
+
+# The hostname of the control plane/head node
+kubeadm_k8s_head_node: ""
+
+# The pod subnet
+kubeadm_k8s_pod_subnet: 10.0.0.0/16
+
+# The version of Cilium to use
+kubeadm_cilium_version: 1.16.6
+
+# The version of Helm to use
+kubeadm_helm_version: 3.17.0
+
+# The checksum for the specified Helm release
+kubeadm_helm_checksum: sha256:fb5d12662fde6eeff36ac4ccacbf3abed96b0ee2de07afdde4edb14e613aee24
+
+# List of non-root users who should get the kube config and bash completion
+kubeadm_additional_users: []

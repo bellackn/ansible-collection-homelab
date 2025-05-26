@@ -1,0 +1,18 @@
+---
+kind: ClusterConfiguration
+apiVersion: kubeadm.k8s.io/v1beta4
+kubernetesVersion: v{{ kubeadm_k8s_version }}
+controlPlaneEndpoint: "{{ kubeadm_k8s_head_node }}"
+networking:
+  podSubnet: "{{ kubeadm_k8s_pod_subnet }}"
+
+---
+kind: InitConfiguration
+apiVersion: kubeadm.k8s.io/v1beta4
+nodeRegistration:
+  criSocket: unix:///var/run/cri-dockerd.sock
+
+---
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+cgroupDriver: systemd

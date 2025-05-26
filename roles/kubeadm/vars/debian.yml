@@ -1,0 +1,9 @@
+---
+_kubeadm_req_packages:
+  - apt-transport-https
+  - bash-completion
+  - ca-certificates
+  - curl
+  - gpg
+  - jq
+  - strace

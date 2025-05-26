@@ -1,7 +1,10 @@
 ---
-profile: shared
+profile: production
 
 exclude_paths:
   - .cache/
   - changelogs/
   - roles/proxmox_lxc/tests/requirements/
+
+skip_list:
+  - yaml[line-length]

@@ -1,0 +1,21 @@
+---
+- name: Fail if not on Debian
+  ansible.builtin.fail:
+    msg: >-
+      This role only works on Debian right now, because that's what I needed.
+      I'm happy to review PRs for other distros.
+  when: ansible_distribution != "Debian"
+
+- name: Compose file name from distro
+  ansible.builtin.set_fact:
+    _release_filename: "cri-dockerd_{{ kubeadm_cri_dockerd_version }}.3-0.{{ ansible_distribution | lower }}-{{ ansible_distribution_release }}_{{ _architecture }}.deb"
+
+- name: Download release file
+  ansible.builtin.get_url:
+    url: "https://github.com/Mirantis/cri-dockerd/releases/download/v{{ kubeadm_cri_dockerd_version }}/{{ _release_filename }}"
+    dest: "/tmp/{{ _release_filename }}"
+    mode: "0644"
+
+- name: Install .deb package
+  ansible.builtin.apt:
+    deb: "/tmp/{{ _release_filename }}"

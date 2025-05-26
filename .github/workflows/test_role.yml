@@ -40,6 +40,8 @@ jobs:
         run: yamllint roles/${{ inputs.ROLE_NAME }}
 
       - name: Run ansible-lint
+        env:
+          ANSIBLE_CONFIG: roles/${{ inputs.ROLE_NAME }}/ansible.cfg
         run: ansible-lint roles/${{ inputs.ROLE_NAME }}
 
       - name: Test syntax
