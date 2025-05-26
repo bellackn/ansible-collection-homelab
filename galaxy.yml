@@ -1,7 +1,7 @@
 ---
 namespace: bellackn
 name: homelab
-version: 6.0.0
+version: 6.1.0
 readme: README.md
 authors:
   - Nico Bellack <hello@bellack.dev>
@@ -15,6 +15,8 @@ tags:
   - tools
   - mqtt
   - hms
+  - kubernetes
+  - k8s
 repository: https://github.com/bellackn/ansible-collection-homelab
 documentation: https://github.com/bellackn/ansible-collection-homelab
 homepage: https://github.com/bellackn/ansible-collection-homelab

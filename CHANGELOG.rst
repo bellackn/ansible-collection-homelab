@@ -4,6 +4,25 @@ Bellackn Homelab Release Notes
 
 .. contents:: Topics
 
+v6.1.0
+======
+
+Release Summary
+---------------
+
+A new role was added to set up K8s clusters with kubeadm. Also a minor fix in
+the `proxmox_lxc` role.
+
+Major Changes
+-------------
+
+- Added a new `kubeadm` role as part of the collection
+
+Minor Changes
+-------------
+
+- The `proxmox_lxc` role does now also check for another string when deleting LXCs
+
 v6.0.0
 ======
 
@@ -19,14 +38,12 @@ Breaking Changes / Porting Guide
 - The `proxmox_lxc_storage` parameter was removed from the `proxmox_lxc` role.
 
   Old way:
-
   ```
   proxmox_lxc_disk: 3
   proxmox_lxc_storage: local
   ```
 
   New way:
-  
   ```
   proxmox_lxc_disk: local:3
   ```

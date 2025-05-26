@@ -84,3 +84,18 @@ releases:
     - 14-storage-vs-disk.yml
     - v6.0.0_summary.yml
     release_date: '2025-01-22'
+  6.1.0:
+    changes:
+      major_changes:
+      - Added a new `kubeadm` role as part of the collection
+      minor_changes:
+      - The `proxmox_lxc` role does now also check for another string when deleting
+        LXCs
+      release_summary: 'A new role was added to set up K8s clusters with kubeadm.
+        Also a minor fix in
+
+        the `proxmox_lxc` role.'
+    fragments:
+    - 15-kubeadm-role.yml
+    - v6.1.0_summary.yml
+    release_date: '2025-05-26'

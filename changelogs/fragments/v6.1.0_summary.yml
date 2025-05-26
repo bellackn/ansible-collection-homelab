@@ -1,0 +1,4 @@
+---
+release_summary: |-
+  A new role was added to set up K8s clusters with kubeadm. Also a minor fix in
+  the `proxmox_lxc` role.

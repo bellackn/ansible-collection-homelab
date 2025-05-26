@@ -1,0 +1,6 @@
+---
+major_changes:
+  - Added a new `kubeadm` role as part of the collection
+
+minor_changes:
+  - The `proxmox_lxc` role does now also check for another string when deleting LXCs

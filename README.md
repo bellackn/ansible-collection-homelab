@@ -23,3 +23,12 @@ Sets up Kubernetes clusters with kubeadm.
 #### [proxmox_lxc](roles/proxmox_lxc/README.md)
 
 Sets up Proxmox LXCs.
+
+## Release
+
+1. Create a new fragment in [changelog/fragments](changelog/fragments)
+2. Create a release summary in the same directory
+3. Bump the version in [galaxy.yml](galaxy.yml)
+4. Run `antsibull-changelog release`
+5. Create and push the according git tag
+6. Create a release on GitHub (use the previous ones as a template)
