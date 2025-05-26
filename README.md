@@ -26,7 +26,7 @@ Sets up Proxmox LXCs.
 
 ## Release
 
-1. Create a new fragment in [changelog/fragments](changelog/fragments)
+1. Create a new fragment in [changelogs/fragments](changelogs/fragments)
 2. Create a release summary in the same directory
 3. Bump the version in [galaxy.yml](galaxy.yml)
 4. Run `antsibull-changelog release`
