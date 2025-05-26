@@ -6,11 +6,11 @@
       I'm happy to review PRs for other distros.
   when: ansible_distribution != "Debian"
 
-- name: Compose file name from distro  # noqa yaml[line-length]
+- name: Compose file name from distro
   ansible.builtin.set_fact:
     _release_filename: "cri-dockerd_{{ kubeadm_cri_dockerd_version }}.3-0.{{ ansible_distribution | lower }}-{{ ansible_distribution_release }}_{{ _architecture }}.deb"
 
-- name: Download release file  # noqa yaml[line-length]
+- name: Download release file
   ansible.builtin.get_url:
     url: "https://github.com/Mirantis/cri-dockerd/releases/download/v{{ kubeadm_cri_dockerd_version }}/{{ _release_filename }}"
     dest: "/tmp/{{ _release_filename }}"
