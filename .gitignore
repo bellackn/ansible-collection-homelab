@@ -1,5 +1,7 @@
 .ansible
 .cache
+.devenv
+.direnv
 .idea
 .vscode
 
