@@ -24,6 +24,10 @@ Sets up Kubernetes clusters with kubeadm.
 
 Sets up Proxmox LXCs.
 
+#### [hass_control](roles/hass_control/README.md)
+
+Manages Home Assistant config files.
+
 ## Release
 
 1. Create a new fragment in [changelogs/fragments](changelogs/fragments)

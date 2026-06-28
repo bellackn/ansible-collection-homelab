@@ -1,0 +1,12 @@
+---
+- name: Install system requirements in Home Assistant's SSH container
+  ansible.builtin.include_tasks: prepare.yml
+
+- name: Handle config files
+  ansible.builtin.include_tasks: handle_config_files.yml
+  loop: "{{ hass_control_config_files }}"
+
+- name: Render and set config templates
+  ansible.builtin.include_tasks: handle_config_templates.yml
+  loop: "{{ hass_control_config_templates }}"
+  when: hass_control_mode == "set"

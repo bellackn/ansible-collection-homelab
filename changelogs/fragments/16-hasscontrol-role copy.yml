@@ -1,0 +1,3 @@
+---
+major_changes:
+  - Added a new `hass_control` role as part of the collection (formerly `bellackn.hass_control`)

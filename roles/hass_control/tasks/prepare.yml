@@ -1,0 +1,11 @@
+---
+- name: Check if Python3 is already installed
+  ansible.builtin.command: which python3
+  register: hass_control_py3_result
+  ignore_errors: true
+  changed_when: false
+
+- name: Install Python3
+  ansible.builtin.raw: apk update --no-cache && apk add python3
+  when: hass_control_py3_result.rc is not defined or hass_control_py3_result.rc != 0
+  changed_when: true

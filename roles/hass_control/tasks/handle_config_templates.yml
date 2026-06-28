@@ -1,0 +1,7 @@
+---
+- name: Copy config to Home Assistant - {{ item }}
+  ansible.builtin.template:
+    src: "{{ hass_control_config_local_root_templates }}/{{ item }}.yaml.j2"
+    dest: "{{ hass_control_config_remote_root }}/{{ item }}.yaml"
+    mode: "0644"
+  notify: Restart Home Assistant

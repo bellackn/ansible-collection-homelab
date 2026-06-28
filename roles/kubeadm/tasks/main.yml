@@ -14,7 +14,7 @@
 
 - name: Map CPU architecture facts to their correct values
   ansible.builtin.set_fact:
-    _architecture: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
+    kubeadm_architecture: "{{ 'amd64' if ansible_architecture == 'x86_64' else ansible_architecture }}"
 
 - name: Install required system packages
   ansible.builtin.apt:
@@ -39,10 +39,9 @@
     value: "{{ item.value }}"
     state: present
   loop:
-    - {name: net.bridge.bridge-nf-call-ip6tables, value: 1}
-    - {name: net.bridge.bridge-nf-call-iptables, value: 1}
-    - {name: net.ipv4.ip_forward, value: 1}
-
+    - { name: net.bridge.bridge-nf-call-ip6tables, value: 1 }
+    - { name: net.bridge.bridge-nf-call-iptables, value: 1 }
+    - { name: net.ipv4.ip_forward, value: 1 }
 - name: Add all hosts to /etc/hosts
   ansible.builtin.lineinfile:
     path: /etc/hosts
@@ -52,23 +51,23 @@
 
 - name: Determine major Kubernetes version
   ansible.builtin.set_fact:
-    _k8s_major_version: "{{ kubeadm_k8s_version.split('.')[:2] | join('.') }}"
+    kubeadm_k8s_major_version: "{{ kubeadm_k8s_version.split('.')[:2] | join('.') }}"
 
 - name: Download Kubernetes GPG key
   ansible.builtin.get_url:
-    url: "https://pkgs.k8s.io/core:/stable:/v{{ _k8s_major_version }}/deb/Release.key"
+    url: "https://pkgs.k8s.io/core:/stable:/v{{ kubeadm_k8s_major_version }}/deb/Release.key"
     dest: /tmp/k8s-release.key
     mode: "0644"
 
-- name: Import Kubernetes GPG key  # noqa yaml[line-length]
+- name: Import Kubernetes GPG key
   ansible.builtin.shell:
     cmd: set -o pipefail && cat /tmp/k8s-release.key | gpg --batch --yes --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
     executable: /bin/bash
   changed_when: false
 
-- name: Add Kubernetes apt repository  # noqa yaml[line-length]
+- name: Add Kubernetes apt repository
   ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v{{ _k8s_major_version }}/deb/ /"
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v{{ kubeadm_k8s_major_version }}/deb/ /"
     state: present
 
 - name: Install Kubernetes tools
@@ -128,7 +127,7 @@
   ansible.builtin.template:
     src: kubeadm-config.yml.j2
     dest: "{{ ansible_env.HOME }}/kubeadm-config.yml"
-    mode: '0644'
+    mode: "0644"
   when: inventory_hostname == kubeadm_k8s_head_node
 
 - name: Set up Cilium

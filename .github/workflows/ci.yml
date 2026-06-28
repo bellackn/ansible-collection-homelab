@@ -28,12 +28,18 @@ jobs:
     with:
       ROLE_NAME: kubeadm
 
+  test-role-hasscontrol:
+    name: Test hass_control role
+    uses: ./.github/workflows/test_role.yml
+    with:
+      ROLE_NAME: hass_control
+
   ansible-test:
     name: Run ansible-test
     runs-on: ubuntu-latest
     steps:
       - name: Perform sanity testing with ansible-test
-        uses: ansible-community/ansible-test-gh-action@release/v1
+        uses: ansible-community/ansible-test-gh-action@release/v1.18
         with:
           testing-type: sanity
 
@@ -42,10 +48,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
 
       - name: Build collection tarball
-        uses: artis3n/ansible_galaxy_collection@v2
+        uses: artis3n/ansible_galaxy_collection@v3
         with:
           api_key: '${{ secrets.GALAXY_API_KEY }}'
           publish: false

@@ -8,14 +8,14 @@
 
 - name: Compose file name from distro
   ansible.builtin.set_fact:
-    _release_filename: "cri-dockerd_{{ kubeadm_cri_dockerd_version }}.3-0.{{ ansible_distribution | lower }}-{{ ansible_distribution_release }}_{{ _architecture }}.deb"
+    kubeadm_release_filename: "cri-dockerd_{{ kubeadm_cri_dockerd_version }}.3-0.{{ ansible_distribution | lower }}-{{ ansible_distribution_release }}_{{ kubeadm_architecture }}.deb"
 
 - name: Download release file
   ansible.builtin.get_url:
-    url: "https://github.com/Mirantis/cri-dockerd/releases/download/v{{ kubeadm_cri_dockerd_version }}/{{ _release_filename }}"
-    dest: "/tmp/{{ _release_filename }}"
+    url: "https://github.com/Mirantis/cri-dockerd/releases/download/v{{ kubeadm_cri_dockerd_version }}/{{ kubeadm_release_filename }}"
+    dest: "/tmp/{{ kubeadm_release_filename }}"
     mode: "0644"
 
 - name: Install .deb package
   ansible.builtin.apt:
-    deb: "/tmp/{{ _release_filename }}"
+    deb: "/tmp/{{ kubeadm_release_filename }}"

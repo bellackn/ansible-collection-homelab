@@ -1,0 +1,18 @@
+---
+- name: Retrieve config - {{ item }}
+  ansible.builtin.fetch:
+    src: "{{ hass_control_config_remote_root }}/{{ item }}.yaml"
+    dest: "{{ hass_control_config_local_root_files }}/{{ item }}.yaml"
+    flat: true
+  when:
+    - hass_control_mode == "get"
+    # We don't want to fetch unencrypted secrets
+    - "'secrets' not in item"
+
+- name: Set config - {{ item }}
+  ansible.builtin.copy:
+    src: "{{ hass_control_config_local_root_files }}/{{ item }}.yaml"
+    dest: "{{ hass_control_config_remote_root }}/{{ item }}.yaml"
+    mode: "0644"
+  notify: Restart Home Assistant
+  when: hass_control_mode == "set"

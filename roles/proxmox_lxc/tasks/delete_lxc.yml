@@ -7,7 +7,7 @@
     hostname: "{{ item.hostname }}"
     node: "{{ item.node | default(proxmox_lxc_node) }}"
     state: stopped
-  register: lxc_stop
+  register: proxmox_lxc_stop
   ignore_errors: true
 
 - name: "Delete LXC '{{ item.hostname }}'"
@@ -20,4 +20,4 @@
     state: absent
   when:
     - "'Hostname doesn\\'t exist' not in lxc_stop.msg"
-    - "'No VM with name' not in lxc_stop.msg"
+    - "'No VM with name' not in proxmox_lxc_stop.msg"

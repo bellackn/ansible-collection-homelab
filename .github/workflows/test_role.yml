@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
 
       # we need '../' so the actual role can be tested, and '/tmp' is where dependencies will be installed
       - name: Create ansible.cfg
@@ -23,7 +23,7 @@ jobs:
           > roles/${{ inputs.ROLE_NAME }}/ansible.cfg
 
       - name: Set up Python 3.10
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v6
         with:
           python-version: "3.10"
 

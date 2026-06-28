@@ -1,0 +1,15 @@
+---
+hass_control_home_assistant_base_url: http://homeassistant:8123
+hass_control_home_assistant_auth_token: ""
+
+# List of configurations that you want to handle
+hass_control_config_files: []
+hass_control_config_templates: []
+
+# Use "get" or "set" to either retrieve or update the configurations
+hass_control_mode: get
+
+# Default local and remote file paths
+hass_control_config_local_root_files: files/home_assistant
+hass_control_config_local_root_templates: templates/home_assistant
+hass_control_config_remote_root: /config
