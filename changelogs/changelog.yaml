@@ -99,3 +99,12 @@ releases:
     - 15-kubeadm-role.yml
     - v6.1.0_summary.yml
     release_date: '2025-05-26'
+  6.2.0:
+    changes:
+      major_changes:
+      - Added a new `hass_control` role as part of the collection (formerly `bellackn.hass_control`)
+      release_summary: A new role was added to manage Home Assistant configurations.
+    fragments:
+    - 16-hasscontrol-role copy.yml
+    - v6.2.0_summary.yml
+    release_date: '2026-06-28'

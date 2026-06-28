@@ -4,6 +4,19 @@ Bellackn Homelab Release Notes
 
 .. contents:: Topics
 
+v6.2.0
+======
+
+Release Summary
+---------------
+
+A new role was added to manage Home Assistant configurations.
+
+Major Changes
+-------------
+
+- Added a new `hass_control` role as part of the collection (formerly `bellackn.hass_control`)
+
 v6.1.0
 ======
 
